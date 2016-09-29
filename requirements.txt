@@ -1,0 +1,4 @@
+Django==1.10.1
+git+https://github.com/djangonauts/django-hstore@61427e474cb2f4be8fdfce225d78a5330bc77eb0#egg=django-hstore
+Pillow==3.3.1
+psycopg2==2.6.2
