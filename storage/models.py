@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 from django_hstore import hstore
 import uuid
 
+from tree.fields import PathField
+from tree.models import TreeModelMixin
+
+
 STATES = (
     ('present', 'Present'),
     ('taken', 'Taken'),
@@ -21,24 +25,31 @@ class Category(models.Model):
         return self.name
 
 
-class Item(models.Model):
+class Item(models.Model, TreeModelMixin):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.TextField()
+
+    parent = models.ForeignKey('self', null=True, blank=True)
+    path = PathField()
+
     description = models.TextField(blank=True, null=True)
     state = models.CharField(max_length=31, choices=STATES, default=STATES[0][0])
-    categories = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category, blank=True)
     owner = models.ForeignKey(User, null=True, blank=True, related_name='owned_items')
 
     taken_by = models.ForeignKey(User, null=True, blank=True, related_name='taken_items')
     taken_on = models.DateTimeField(blank=True, null=True)
     taken_until = models.DateTimeField(blank=True, null=True)
 
-    props = hstore.DictionaryField()
+    props = hstore.DictionaryField(blank=True)
 
     objects = hstore.HStoreManager()
 
     def __str__(self):
-        return self.name
+        return '-' * (self.get_level() or 0) + ' ' +self.name
+
+    class Meta:
+        ordering = ('path',)
 
 
 class ItemImage(models.Model):

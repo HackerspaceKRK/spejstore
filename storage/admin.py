@@ -14,10 +14,13 @@ class ItemImageInline(admin.TabularInline):
     extra = 1
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'uuid', 'props')
+    list_display = ('_name', 'uuid', 'props', 'path')
     list_filter = ('categories',)
     form = ItemForm
     inlines = [ItemImageInline]
+
+    def _name(self, obj):
+        return '-' * obj.get_level() + '> ' + obj.name
 
 
 admin.site.register(Item, ItemAdmin)
