@@ -46,7 +46,11 @@ class Item(models.Model, TreeModelMixin):
     objects = hstore.HStoreManager()
 
     def __str__(self):
-        return '-' * (self.get_level() or 0) + ' ' +self.name
+        return '- ' * (self.get_level() or 0) + self.name
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('item-display', kwargs={'pk': str(self.pk)})
 
     class Meta:
         ordering = ('path',)

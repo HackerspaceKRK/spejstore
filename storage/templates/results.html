@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table class="table table-striped table-hover">
+        {% for item in results %}
+        <tr>
+            <td>
+                {% for parent in item.get_ancestors %}
+                    {{ parent.name }} &raquo;
+                {% endfor %}
+                <a href="{{ item.get_absolute_url }}">{{ item.name }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

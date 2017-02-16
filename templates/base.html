@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Hackerspace Storage System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" media="screen">
+    <style>
+        .btn {
+            font-size: 1.4em;
+            text-transform: none;
+            margin-bottom: 10px;
+            padding: 15px;
+        }
+
+        .btn .glyphicon {
+            padding: 0 10px;
+        }
+        .btn-alt {
+            background: #4b176d;
+            color:white;
+            border-color: #2d0d42; /*#301934;*/
+        }
+        .btn-alt:hover, .btn-alt:active, .btn-alt:link, .btn-alt:visited {
+            color: white;
+        }
+    </style>
+  </head>
+  <body>
+    {% block body %}
+    <div class="container">
+        <h1 class="page-header">Warsaw Hackerspace <small class="hidden-sm hidden-xs">Enjoy your stay</small></h1>
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% endblock %}
+  </body>
+</html>

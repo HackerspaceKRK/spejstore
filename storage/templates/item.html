@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ol class="breadcrumb">
+        <li><a href="/item/">Everything</a></li>
+        {% for ancestor in ancestors %}
+            <li><a href="{{ ancestor.get_absolute_url }}">{{ ancestor.name }}</a></li>
+        {% endfor %}
+        <li class="active">{{ item.name }}</li>
+    </ol>
+    <h2>{{ item.name }} <small>{{ item.pk }}</small></h2>
+    <div class="row">
+        <div class="col-md-4">
+            {% if item.props %}
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>key</th>
+                        <th>value</th>
+                    </tr>
+                </thead>
+                {% for k, v in item.props.items %}
+                <tr><td>{{ k }}</td><td>{{ v }}</td></tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if children %}
+        <h3>Children</h3>
+        <table class="table table-striped table-hover">
+        {% for child in children %}
+            <tr><td><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></td></tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}
