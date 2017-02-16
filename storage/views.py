@@ -15,7 +15,8 @@ def apply_smart_search(query, objects):
             key, value = prop.split(':', 1)
             if hasattr(Item, key):
                 filters[key + '__search'] = value
-
+            elif key == 'ancestor':
+                objects = Item.objects.get(pk=value).get_children()
             elif key == 'prop' or value:
                 if key == 'prop':
                     key, value = value.split(':', 1)

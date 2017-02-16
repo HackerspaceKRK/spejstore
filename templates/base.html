@@ -7,31 +7,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" media="screen">
-    <style>
-        .btn {
-            font-size: 1.4em;
-            text-transform: none;
-            margin-bottom: 10px;
-            padding: 15px;
-        }
-
-        .btn .glyphicon {
-            padding: 0 10px;
-        }
-        .btn-alt {
-            background: #4b176d;
-            color:white;
-            border-color: #2d0d42; /*#301934;*/
-        }
-        .btn-alt:hover, .btn-alt:active, .btn-alt:link, .btn-alt:visited {
-            color: white;
-        }
-    </style>
   </head>
   <body>
     {% block body %}
+    <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">spejstore</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/item/">Items</a></li>
+      </ul>
+      <form class="navbar-form navbar-right" role="search" action="/search">
+          <div class="form-group">
+              <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search" name="q">
+                  <span class="input-group-btn">
+                      <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                  </span>
+              </div>
+          </div>
+      </form>
+    </div>
+  </div>
+    </nav>
     <div class="container">
-        <h1 class="page-header">Warsaw Hackerspace <small class="hidden-sm hidden-xs">Enjoy your stay</small></h1>
+        <!--<h1 class="page-header">Warsaw Hackerspace <small class="hidden-sm
+            hidden-xs">Enjoy your stay</small></h1>-->
         {% block content %}
         {% endblock %}
     </div>

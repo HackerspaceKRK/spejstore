@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'django_hstore',
     'tree',
+    'django_select2',
 
     'storage',
 ]

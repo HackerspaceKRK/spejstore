@@ -27,10 +27,11 @@ class Category(models.Model):
 
 class Item(models.Model, TreeModelMixin):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.TextField()
 
     parent = models.ForeignKey('self', null=True, blank=True)
     path = PathField()
+
+    name = models.TextField()
 
     description = models.TextField(blank=True, null=True)
     state = models.CharField(max_length=31, choices=STATES, default=STATES[0][0])

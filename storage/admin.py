@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib import admin
 from .models import Item, ItemImage, Category
+from django_select2.forms import Select2Widget, Select2MultipleWidget
+
 
 class ItemForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput())
@@ -8,6 +10,10 @@ class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         exclude = []
+        widgets = {
+            'parent': Select2Widget,
+            'categories': Select2MultipleWidget
+            }
 
 class ItemImageInline(admin.TabularInline):
     model = ItemImage
@@ -22,6 +28,27 @@ class ItemAdmin(admin.ModelAdmin):
     def _name(self, obj):
         return '-' * obj.get_level() + '> ' + obj.name
 
+    def save_model(self, request, obj, form, change):
+        super(ItemAdmin, self).save_model(request, obj, form, change)
+
+        # Store last input parent to use as default on next creation
+        if obj.parent:
+            request.session['last-parent'] = str(obj.parent.uuid)
+        else:
+            request.session['last-parent'] = str(obj.uuid)
+
+    def get_changeform_initial_data(self, request):
+        data = {
+            'parent': request.session.get('last-parent')
+            }
+        data.update(super(ItemAdmin, self).get_changeform_initial_data(request))
+        return data
+
+    class Media:
+        js = (
+            # Required by select2
+            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+            )
 
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category)
