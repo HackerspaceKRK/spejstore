@@ -60,6 +60,7 @@ def item_display(request, pk):
 
     return render(request, 'item.html', {
         'item': item,
+        'images': item.images.all(),
         'ancestors': item.get_ancestors(),
         'children': item.get_children(),
         })

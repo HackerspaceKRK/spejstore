@@ -109,6 +109,41 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+import ldap
+from django_auth_ldap.config import LDAPSearch, GroupOfUniqueNamesType
+
+AUTHENTICATION_BACKENDS = (
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+AUTH_LDAP_SERVER_URI = "ldaps://ldap.hackerspace.pl"
+AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=People,dc=hackerspace,dc=pl"
+AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True
+
+AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+    "is_active": "cn=staff,ou=Group,dc=hackerspace,dc=pl",
+    "is_superuser": "cn=staff,ou=Group,dc=hackerspace,dc=pl",
+    "is_staff": "cn=staff,ou=Group,dc=hackerspace,dc=pl",
+    }
+
+# Populate the Django user from the LDAP directory.
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "givenName",
+    "last_name": "sn",
+    "email": "mail"
+}
+
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch("ou=Group,dc=hackerspace,dc=pl",
+    ldap.SCOPE_SUBTREE, "(objectClass=groupOfUniqueNames)"
+)
+AUTH_LDAP_GROUP_TYPE = GroupOfUniqueNamesType(name_attr="cn")
+
+import logging
+
+logger = logging.getLogger('django_auth_ldap')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -132,3 +167,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")

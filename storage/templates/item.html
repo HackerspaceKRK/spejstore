@@ -8,10 +8,13 @@
         {% endfor %}
         <li class="active">{{ item.name }}</li>
     </ol>
-    <h2>{{ item.name }} <small>{{ item.pk }}</small></h2>
+    <h2>
+        <small class="pull-right"><a href="{% url 'admin:storage_item_change' item.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></small>
+        {{ item.name }} <small>{{ item.pk }}</small>
+    </h2>
     <div class="row">
         <div class="col-md-4">
-            {% if item.props %}
+            <h3>Properties</h3>
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
@@ -20,19 +23,37 @@
                     </tr>
                 </thead>
                 {% for k, v in item.props.items %}
-                <tr><td>{{ k }}</td><td>{{ v }}</td></tr>
+                <tr><td>{{ k }}</td><td>{{ v|urlize }}</td></tr>
+                {% empty %}
+                <tr><td colspan=2>No properties</td></tr>
                 {% endfor %}
             </table>
+
+            {% if images %}
+            <h3>Photos</h3>
+            <div class="row">
+                {% for image in images %}
+                <div class="col-md-6">
+                    <a href="{{ image.image.url }}">
+                        <img src="{{ image.image.url }}" class="img-responsive img-thumbnail" />
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
             {% endif %}
         </div>
-    </div>
 
-    {% if children %}
-        <h3>Children</h3>
-        <table class="table table-striped table-hover">
-        {% for child in children %}
-            <tr><td><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></td></tr>
-        {% endfor %}
-        </table>
-    {% endif %}
+        <div class="col-md-8">
+            {{ item.description|urlize }}
+
+            <h3>Children</h3>
+            <table class="table table-striped table-hover">
+            {% for child in children %}
+                <tr><td><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></td></tr>
+                {% empty %}
+                <tr><td colspan=2>No children</td></tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
 {% endblock %}

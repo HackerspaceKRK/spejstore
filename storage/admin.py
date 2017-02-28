@@ -20,10 +20,11 @@ class ItemImageInline(admin.TabularInline):
     extra = 1
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('_name', 'uuid', 'props', 'path')
+    list_display = ('_name',)
     list_filter = ('categories',)
     form = ItemForm
     inlines = [ItemImageInline]
+    save_on_top = True
 
     def _name(self, obj):
         return '-' * obj.get_level() + '> ' + obj.name
