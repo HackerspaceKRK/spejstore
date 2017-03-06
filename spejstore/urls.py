@@ -8,12 +8,22 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
+from rest_framework import routers
 
+from storage import apiviews
+
+
+router = routers.DefaultRouter()
+router.register(r'items', apiviews.ItemViewSet)
+
+# Wire up our API using automatic URL routing.
+# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^select2/', include('django_select2.urls')),
 
     url(r'^', include('storage.urls')),
+    url(r'^api/1/', include(router.urls)),
 ] \
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
