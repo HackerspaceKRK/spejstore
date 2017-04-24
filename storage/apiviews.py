@@ -27,9 +27,20 @@ class ItemViewSet(viewsets.ModelViewSet):
 
     @detail_route()
     def children(self, request, pk):
-        """
-        Returns a list of all the group names that the given
-        user belongs to.
-        """
         item = self.get_object()
         return Response(self.serializer_class(item.get_children().all(), many=True).data)
+
+    @detail_route()
+    def ancestors(self, request, pk):
+        item = self.get_object()
+        return Response(self.serializer_class(item.get_ancestors().all(), many=True).data)
+
+    @detail_route()
+    def descendants(self, request, pk):
+        item = self.get_object()
+        return Response(self.serializer_class(item.get_descendants().all(), many=True).data)
+
+    @detail_route()
+    def siblings(self, request, pk):
+        item = self.get_object()
+        return Response(self.serializer_class(item.get_siblings().all(), many=True).data)
