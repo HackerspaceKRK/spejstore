@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from storage.models import Item
+from django.shortcuts import render, get_object_or_404, redirect
+from storage.models import Item, Label
 from django.contrib.postgres.search import SearchVector
 import shlex
 
@@ -61,6 +61,11 @@ def item_display(request, pk):
     return render(request, 'item.html', {
         'item': item,
         'images': item.images.all(),
+        'labels': item.labels.all(),
         'ancestors': item.get_ancestors(),
         'children': item.get_children(),
         })
+
+def label_lookup(request, pk):
+    label = get_object_or_404(Label, pk=pk)
+    return redirect(label.item)

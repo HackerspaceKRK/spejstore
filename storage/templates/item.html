@@ -41,6 +41,13 @@
                 {% endfor %}
             </div>
             {% endif %}
+
+            {% if labels %}
+            <h3>Labels</h3>
+            {% for label in labels %}
+                <span class="label label-default">{{ label.id }} <small>({{ label.revision }})</small></span>
+            {% endfor %}
+            {% endif %}
         </div>
 
         <div class="col-md-8">

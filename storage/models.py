@@ -60,3 +60,9 @@ class Item(models.Model, TreeModelMixin):
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, related_name='images')
     image = models.ImageField()
+
+
+class Label(models.Model):
+    id = models.CharField(max_length=64, primary_key=True)
+    item = models.ForeignKey(Item, related_name='labels')
+    revision = models.IntegerField()

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib import admin
-from .models import Item, ItemImage, Category
+from .models import Item, ItemImage, Category, Label
 from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 
@@ -19,11 +19,14 @@ class ItemImageInline(admin.TabularInline):
     model = ItemImage
     extra = 1
 
+class LabelInline(admin.TabularInline):
+    model = Label
+
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('_name',)
     list_filter = ('categories',)
     form = ItemForm
-    inlines = [ItemImageInline]
+    inlines = [ItemImageInline, LabelInline]
     save_on_top = True
 
     def _name(self, obj):

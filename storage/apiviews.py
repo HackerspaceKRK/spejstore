@@ -1,10 +1,17 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, filters
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 
-from storage.models import Item
-from storage.serializers import ItemSerializer
+from storage.models import Item, Label
+from storage.serializers import ItemSerializer, LabelSerializer
 from django.shortcuts import get_object_or_404
+
+class LabelViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows items to be viewed or edited.
+    """
+    queryset = Label.objects
+    serializer_class = LabelSerializer
 
 
 class ItemViewSet(viewsets.ModelViewSet):
