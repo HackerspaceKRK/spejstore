@@ -1,5 +1,6 @@
 Django==1.10.1
 git+https://github.com/djangonauts/django-hstore@61427e474cb2f4be8fdfce225d78a5330bc77eb0#egg=django-hstore
+git+https://github.com/informatic/django-tree@993cec827ed989d3c162698a739da95b9227604b#egg=django-tree
 django-appconf==1.0.2
 django-auth-ldap==1.2.9
 Django-Select2==5.8.10
@@ -7,3 +8,4 @@ djangorestframework==3.5.4
 Pillow==3.3.1
 psycopg2==2.6.2
 djangorestframework-hstore==1.3
+pyldap==2.4.28
