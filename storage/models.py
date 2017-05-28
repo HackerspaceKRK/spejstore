@@ -1,12 +1,16 @@
 from __future__ import unicode_literals
 
+import uuid
+import re
+
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from django_hstore import hstore
-import uuid
-
 from tree.fields import PathField
 from tree.models import TreeModelMixin
+
+import requests
 
 
 STATES = (
@@ -17,7 +21,6 @@ STATES = (
 )
 
 
-# Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=127)
 
@@ -53,6 +56,17 @@ class Item(models.Model, TreeModelMixin):
         from django.urls import reverse
         return reverse('item-display', kwargs={'pk': str(self.pk)})
 
+    def get_or_create_label(self, **kwargs):
+        defaults = {
+            'id': re.sub('[^A-Z0-9]', '', self.name.upper())[:16],
+            }
+
+        defaults.update(kwargs)
+
+        obj, created = self.labels.get_or_create(**kwargs, defaults=defaults)
+
+        return obj
+
     class Meta:
         ordering = ('path',)
 
@@ -65,4 +79,15 @@ class ItemImage(models.Model):
 class Label(models.Model):
     id = models.CharField(max_length=64, primary_key=True)
     item = models.ForeignKey(Item, related_name='labels')
-    revision = models.IntegerField()
+    style = models.CharField(max_length=32, choices=(
+        ('basic_99012_v1', 'Basic Dymo 89x36mm label'),
+        ), default='basic_99012_v1')
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return self.id
+
+    def print(self):
+        resp = requests.post(
+            '{}/api/1/print/{}'.format(settings.LABEL_API, self.id))
+        resp.raise_for_status()

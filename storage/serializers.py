@@ -12,4 +12,4 @@ class LabelSerializer(serializers.ModelSerializer):
     item = ItemSerializer()
     class Meta:
         model = Label
-        fields = ('id', 'item', 'revision')
+        fields = ('id', 'item', 'style')

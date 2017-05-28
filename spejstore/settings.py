@@ -182,3 +182,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+LABEL_API = 'http://label.waw.hackerspace.pl:5678'
