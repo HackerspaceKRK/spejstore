@@ -54,5 +54,9 @@ class ItemAdmin(admin.ModelAdmin):
             'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
             )
 
+    def response_action(self, request, queryset):
+        with Item.disabled_tree_trigger():
+            return super(ItemAdmin, self).response_action(request, queryset)
+
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category)
