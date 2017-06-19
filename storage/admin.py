@@ -51,7 +51,7 @@ class ItemAdmin(admin.ModelAdmin):
     class Media:
         js = (
             # Required by select2
-            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+            'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
             )
 
     def response_action(self, request, queryset):
