@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # LDAP configuration
 
 import ldap
-from django_auth_ldap.config import LDAPSearch, GroupOfUniqueNamesType
+from django_auth_ldap.config import LDAPSearch, GroupOfUniqueNamesType, LDAPGroupQuery
 
 AUTHENTICATION_BACKENDS = (
     'django_auth_ldap.backend.LDAPBackend',
@@ -124,10 +124,15 @@ AUTH_LDAP_SERVER_URI = "ldaps://ldap.hackerspace.pl"
 AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=People,dc=hackerspace,dc=pl"
 AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True
 
+member_ldap_query = (
+    LDAPGroupQuery("cn=fatty,ou=Group,dc=hackerspace,dc=pl") |
+    LDAPGroupQuery("cn=starving,ou=Group,dc=hackerspace,dc=pl") |
+    LDAPGroupQuery("cn=potato,ou=Group,dc=hackerspace,dc=pl"))
+
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    "is_active": "cn=staff,ou=Group,dc=hackerspace,dc=pl",
-    "is_superuser": "cn=staff,ou=Group,dc=hackerspace,dc=pl",
-    "is_staff": "cn=staff,ou=Group,dc=hackerspace,dc=pl",
+    "is_active": member_ldap_query,
+    "is_superuser": member_ldap_query, # "cn=staff,ou=Group,dc=hackerspace,dc=pl",
+    "is_staff": member_ldap_query,
     }
 
 # Populate the Django user from the LDAP directory.
