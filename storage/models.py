@@ -85,7 +85,7 @@ class Label(models.Model):
     created = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
-        return self.id
+        return '{}'.format(self.id)
 
     def print(self):
         resp = requests.post(
