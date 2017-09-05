@@ -10,6 +10,7 @@ class ItemSerializer(HStoreSerializer):
 
 class LabelSerializer(serializers.ModelSerializer):
     item = ItemSerializer()
+    item_id = serializers.PrimaryKeyRelatedField(queryset=Item.objects, source='item')
     class Meta:
         model = Label
-        fields = ('id', 'item', 'style')
+        fields = ('id', 'item', 'item_id', 'style')
