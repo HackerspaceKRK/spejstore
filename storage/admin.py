@@ -43,8 +43,9 @@ class ItemAdmin(admin.ModelAdmin):
 
     def get_changeform_initial_data(self, request):
         data = {
-            'parent': request.session.get('last-parent')
+            'parent': request.GET.get('parent') or request.session.get('last-parent')
             }
+
         data.update(super(ItemAdmin, self).get_changeform_initial_data(request))
         return data
 
