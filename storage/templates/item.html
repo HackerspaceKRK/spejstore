@@ -71,7 +71,10 @@
         </div>
 
         <div class="col-md-8">
-            {{ item.description|urlize }}
+            {% if item.description %}
+            {% load md2 %}
+            {{ item.description|markdown:"code-color" }}
+            {% endif %}
 
             <h3>Children</h3>
             <table class="table table-striped table-hover">

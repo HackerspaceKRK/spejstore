@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'tree',
     'django_select2',
     'rest_framework',
+    'django_markdown2',
 
     'storage',
 ]
