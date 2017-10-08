@@ -1,0 +1,11 @@
+.table td.placeholder {
+    text-align: center;
+    color: #999;
+}
+
+.table td.placeholder a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+}
