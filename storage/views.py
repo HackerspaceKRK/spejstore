@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from storage.models import Item, Label
 from django.contrib.postgres.search import SearchVector
+from django_select2.views import AutoResponseView
+from django.http import Http404, JsonResponse
 import shlex
 
 def apply_smart_search(query, objects):
@@ -69,3 +71,21 @@ def item_display(request, pk):
 def label_lookup(request, pk):
     label = get_object_or_404(Label, pk=pk)
     return redirect(label.item)
+
+class ItemSelectView(AutoResponseView):
+    def get(self, request, *args, **kwargs):
+        self.widget = self.get_widget_or_404()
+        self.term = kwargs.get('term', request.GET.get('term', ''))
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+        return JsonResponse({
+            'results': [
+                {
+                    'text': obj.name,
+                    'path': [o.name for o in obj.get_ancestors()],
+                    'id': obj.pk,
+                }
+                for obj in context['object_list']
+                ],
+            'more': context['page_obj'].has_next()
+        })

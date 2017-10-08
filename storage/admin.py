@@ -10,6 +10,13 @@ class ItemSelectWidget(ModelSelect2Widget):
         'description__icontains'
     ]
 
+    def __init__(self, *args, **kwargs):
+        kwargs['data_view'] = 'item-complete'
+        super(ItemSelectWidget, self).__init__(*args, **kwargs)
+
+    def label_from_instance(self, obj):
+        return obj.name
+
 class ItemForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput())
 
