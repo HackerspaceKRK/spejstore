@@ -1,8 +1,14 @@
 from django import forms
 from django.contrib import admin
 from .models import Item, ItemImage, Category, Label
-from django_select2.forms import Select2Widget, Select2MultipleWidget
+from django_select2.forms import ModelSelect2Widget, Select2MultipleWidget
 
+
+class ItemSelectWidget(ModelSelect2Widget):
+    search_fields = [
+        'name__icontains',
+        'description__icontains'
+    ]
 
 class ItemForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput())
@@ -11,7 +17,7 @@ class ItemForm(forms.ModelForm):
         model = Item
         exclude = []
         widgets = {
-            'parent': Select2Widget,
+            'parent': ItemSelectWidget,
             'categories': Select2MultipleWidget
             }
 
@@ -54,6 +60,9 @@ class ItemAdmin(admin.ModelAdmin):
             # Required by select2
             'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
             )
+        css = {
+            'all': ('css/admin.css',)
+            }
 
     def response_action(self, request, queryset):
         with Item.disabled_tree_trigger():

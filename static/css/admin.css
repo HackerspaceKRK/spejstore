@@ -1,0 +1,4 @@
+/* django-admin CSS patches */
+.select2-container {
+    min-width: 400px;
+}
