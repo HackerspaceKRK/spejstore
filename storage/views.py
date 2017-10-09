@@ -64,6 +64,7 @@ def item_display(request, pk):
     return render(request, 'item.html', {
         'item': item,
         'categories': item.categories.all(),
+        'props': sorted(item.props.items()),
         'images': item.images.all(),
         'labels': item.labels.all(),
         'history': LogEntry.objects.filter(object_id=item.pk),
