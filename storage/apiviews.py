@@ -6,6 +6,22 @@ from storage.models import Item, Label
 from storage.serializers import ItemSerializer, LabelSerializer
 from django.shortcuts import get_object_or_404
 
+from storage.views import apply_smart_search
+
+
+class SmartSearchFilterBackend(filters.BaseFilterBackend):
+    """
+    Filters query using smartsearch filter
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        search_query = request.query_params.get('smartsearch', None)
+        if search_query:
+            return apply_smart_search(search_query, queryset)
+
+        return queryset
+
+
 class LabelViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows items to be viewed or edited.
@@ -20,6 +36,9 @@ class ItemViewSet(viewsets.ModelViewSet):
     """
     queryset = Item.objects
     serializer_class = ItemSerializer
+    filter_backends = (SmartSearchFilterBackend, filters.OrderingFilter)
+    ordering_fields = '__all__'
+
 
     def get_queryset(self):
         return Item.get_roots()

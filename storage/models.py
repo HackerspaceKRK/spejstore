@@ -28,6 +28,13 @@ class Category(models.Model):
         return self.name
 
 
+# TODO label versioning
+# Zapisywać w URL na naklejce jej wersję, aby można było łatwo wyłapać
+# przedawnione informacje
+# Also przechowywać "id" z qrkodów/barkodów w historycznej bazie.
+# also qrcody w stylu //s/ID (żeby się resolvowało w sieci lokalnej)
+# Also ID zawierające część name
+
 class Item(models.Model, TreeModelMixin):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 

@@ -2,10 +2,14 @@ version: "2"
 services:
   db:
     build: postgres-hstore
+    restart: always
+    volumes:
+      - /var/spejstore-data:/var/lib/postgresql/data
 
   web:
     build: .
-    command: wait-for-it db:5432 -- bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    restart: always
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:
