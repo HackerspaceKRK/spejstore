@@ -65,7 +65,9 @@
             {% if labels %}
             <h3>Labels</h3>
             {% for label in labels %}
-                <span class="label label-default">{{ label.id }} <small>({{ label.revision }})</small></span>
+                <form action="http://label.waw.hackerspace.pl:4567/api/1/print/{{ label.id }}" method='post'>
+                    <input type="submit" value="{{label.id}}">
+                </form>
             {% endfor %}
             {% endif %}
         </div>
