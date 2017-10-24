@@ -89,6 +89,20 @@
                 </form>
             {% endfor %}
             {% endif %}
+
+            {% if history %}
+            <h3>Changes</h3>
+            <table class="table table-striped table-hover">
+            {% for entry in history %}
+                <tr>
+                    <td class="{% if entry.is_addition %}text-success{% endif %}">
+                        <b>{{ entry.user }}</b>
+                    <small>@ {{ entry.action_time }}</small><br />
+                    {{ entry.get_change_message }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+            {% endif %}
         </div>
 
         <div class="col-md-8">

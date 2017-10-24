@@ -3,6 +3,7 @@ from storage.models import Item, Label
 from django.contrib.postgres.search import SearchVector
 from django_select2.views import AutoResponseView
 from django.http import Http404, JsonResponse
+from django.contrib.admin.models import LogEntry
 import shlex
 
 def apply_smart_search(query, objects):
@@ -65,6 +66,7 @@ def item_display(request, pk):
         'categories': item.categories.all(),
         'images': item.images.all(),
         'labels': item.labels.all(),
+        'history': LogEntry.objects.filter(object_id=item.pk),
         'ancestors': item.get_ancestors(),
         'children': item.get_children().prefetch_related('categories'),
         })
