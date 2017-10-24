@@ -64,9 +64,10 @@
 
             {% if labels %}
             <h3>Labels</h3>
+            <iframe name="printframe" style="display: none"></iframe>
             {% for label in labels %}
-                <form action="http://label.waw.hackerspace.pl:4567/api/1/print/{{ label.id }}" method='post'>
-                    <input type="submit" value="{{label.id}}">
+                <form action="http://label.waw.hackerspace.pl:4567/api/1/print/{{ label.id }}" method="POST" target="printframe" onsubmit="return confirm('Want to print this label?')">
+                    <button class="btn btn-xs btn-default" title="Print">{{label.id}}</button>
                 </form>
             {% endfor %}
             {% endif %}
