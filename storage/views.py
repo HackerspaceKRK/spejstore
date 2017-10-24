@@ -62,10 +62,11 @@ def item_display(request, pk):
 
     return render(request, 'item.html', {
         'item': item,
+        'categories': item.categories.all(),
         'images': item.images.all(),
         'labels': item.labels.all(),
         'ancestors': item.get_ancestors(),
-        'children': item.get_children(),
+        'children': item.get_children().prefetch_related('categories'),
         })
 
 def label_lookup(request, pk):

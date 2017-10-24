@@ -24,6 +24,8 @@ STATES = (
 class Category(models.Model):
     name = models.CharField(max_length=127)
 
+    icon_id = models.CharField(max_length=64, null=True, blank=True)
+
     def __str__(self):
         return self.name
 
@@ -73,6 +75,10 @@ class Item(models.Model, TreeModelMixin):
         obj, created = self.labels.get_or_create(**kwargs, defaults=defaults)
 
         return obj
+
+    @property
+    def primary_category(self):
+        return next((c for c in self.categories.all() if c.icon_id), None)
 
     class Meta:
         ordering = ('path',)

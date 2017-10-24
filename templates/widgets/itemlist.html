@@ -1,0 +1,32 @@
+<table class="table table-striped table-hover">
+    {% for item in list %}
+    <tr>
+        <td style="padding: 0px 8px; width: 2rem;">
+            {% include "widgets/categoryicon.html" with category=item.primary_category %}
+        </td>
+        <td>
+            {% if show_paths %}
+            {% for parent in item.get_ancestors %}
+            {{ parent.name }} &raquo;
+            {% endfor %}
+            {% endif %}
+            <a href="{{ item.get_absolute_url }}" style="display: block">{{ item.name }}</a>
+        </td>
+    </tr>
+    {% empty %}
+    {% if show_placeholder %}
+    <tr>
+        <td colspan=2 class="placeholder">Nothing found</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+
+    {% if item %}
+    <tr><td colspan=2 class="placeholder">
+            <a href="/admin/storage/item/add?parent={{ item.uuid }}">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add child
+            </a>
+        </td></tr>
+        {% endif %}
+</table>

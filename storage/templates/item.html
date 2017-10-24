@@ -10,6 +10,8 @@
     </ol>
     <h2>
         <small class="pull-right"><a href="{% url 'admin:storage_item_change' item.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></small>
+
+        {% include "widgets/categoryicon.html" with category=item.primary_category %}
         {{ item.name }} <small>{{ item.pk }}</small>
     </h2>
     <div class="row">
@@ -49,6 +51,22 @@
                 {% endfor %}
             </table>
 
+            {% if categories %}
+            <h3>Categories</h3>
+            <table class="table table-hover table-striped">
+                {% for category in categories %}
+                <tr>
+                <td style="padding: 0px 8px; width: 2rem;">
+                    {% include "widgets/categoryicon.html" with category=category %}
+                </td>
+                <td>
+                    {{ category.name }}
+                </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+
             {% if images %}
             <h3>Photos</h3>
             <div class="row">
@@ -80,17 +98,7 @@
             {% endif %}
 
             <h3>Children</h3>
-            <table class="table table-striped table-hover">
-            {% for child in children|dictsort:"name" %}
-                <tr><td><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></td></tr>
-            {% endfor %}
-            <tr><td colspan=2 class="placeholder">
-                    <a href="/admin/storage/item/add?parent={{ item.uuid }}">
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Add child
-                    </a>
-            </td></tr>
-            </table>
+            {% include "widgets/itemlist.html" with list=children|dictsort:"name" item=item %}
         </div>
     </div>
 {% endblock %}

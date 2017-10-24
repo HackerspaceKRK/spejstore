@@ -9,3 +9,14 @@
     color: inherit;
     font-weight: bold;
 }
+
+.containericon {
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.containericon span {
+    padding-left: 0.5rem;
+    font-weight: bold;
+}
