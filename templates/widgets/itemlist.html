@@ -5,6 +5,10 @@
             {% include "widgets/categoryicon.html" with category=item.primary_category %}
         </td>
         <td>
+            {% if item.get_children.count %}
+                <small class="pull-right">({{ item.get_children.count }} children)</small>
+            {% endif %}
+
             {% if show_paths %}
             {% for parent in item.get_ancestors %}
             {{ parent.name }} &raquo;
