@@ -9,8 +9,10 @@
             {% for parent in item.get_ancestors %}
             {{ parent.name }} &raquo;
             {% endfor %}
-            {% endif %}
+            <a href="{{ item.get_absolute_url }}">{{ item.name }}</a>
+            {% else %}
             <a href="{{ item.get_absolute_url }}" style="display: block">{{ item.name }}</a>
+            {% endif %}
         </td>
     </tr>
     {% empty %}
