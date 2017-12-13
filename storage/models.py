@@ -29,6 +29,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+
 
 # TODO label versioning
 # Zapisywać w URL na naklejce jej wersję, aby można było łatwo wyłapać
