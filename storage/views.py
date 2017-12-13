@@ -34,7 +34,7 @@ def apply_smart_search(query, objects):
 
     if general_term:
         objects = objects.annotate(
-            search=SearchVector('name', 'description', 'props'),
+            search=SearchVector('name', 'description', 'props', config='simple'),
             )
         filters['search'] = ' '.join(general_term)
 
