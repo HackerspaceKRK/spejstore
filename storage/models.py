@@ -88,6 +88,9 @@ class ItemImage(models.Model):
     item = models.ForeignKey(Item, related_name='images')
     image = models.ImageField()
 
+    def __str__(self):
+        return '{}'.format(self.image.name)
+
 
 class Label(models.Model):
     id = models.CharField(max_length=64, primary_key=True)
