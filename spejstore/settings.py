@@ -189,4 +189,4 @@ REST_FRAMEWORK = {
     ]
 }
 
-LABEL_API = 'http://label.waw.hackerspace.pl:5678'
+LABEL_API = 'http://label.waw.hackerspace.pl:4567'
