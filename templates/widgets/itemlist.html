@@ -5,7 +5,7 @@
             {% include "widgets/categoryicon.html" with category=item.primary_category %}
         </td>
         <td>
-            {% if item.get_children.count %}
+            {% if show_count|default_if_none:True and item.get_children.count %}
                 <small class="pull-right">({{ item.get_children.count }} children)</small>
             {% endif %}
 
