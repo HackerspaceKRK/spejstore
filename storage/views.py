@@ -49,6 +49,10 @@ def search(request):
     query = request.GET.get('q', '')
 
     results = apply_smart_search(query, Item.objects)
+
+    if results.count() == 1:
+        return redirect(results.all()[0])
+
     return render(request, 'results.html', {
         'query': query,
         'results': results.all(),
