@@ -18,6 +18,7 @@ STATES = (
     ('taken', 'Taken'),
     ('broken', 'Broken'),
     ('missing', 'Missing'),
+    ('depleted', 'Depleted'),
 )
 
 
