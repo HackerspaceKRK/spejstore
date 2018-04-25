@@ -1,10 +1,13 @@
+import shlex
+
 from django.shortcuts import render, get_object_or_404, redirect
-from storage.models import Item, Label
 from django.contrib.postgres.search import SearchVector
-from django_select2.views import AutoResponseView
 from django.http import Http404, JsonResponse
 from django.contrib.admin.models import LogEntry
-import shlex
+from django_select2.views import AutoResponseView
+
+from storage.models import Item, Label
+
 
 def apply_smart_search(query, objects):
     general_term = []
@@ -42,8 +45,10 @@ def apply_smart_search(query, objects):
 
     return objects
 
+
 def index(request):
     return render(request, 'index.html')
+
 
 def search(request):
     query = request.GET.get('q', '')
@@ -57,6 +62,7 @@ def search(request):
         'query': query,
         'results': results.all(),
         })
+
 
 def item_display(request, pk):
     if not pk:
@@ -76,9 +82,11 @@ def item_display(request, pk):
         'children': item.get_children().prefetch_related('categories'),
         })
 
+
 def label_lookup(request, pk):
     label = get_object_or_404(Label, pk=pk)
     return redirect(label.item)
+
 
 class ItemSelectView(AutoResponseView):
     def get(self, request, *args, **kwargs):
