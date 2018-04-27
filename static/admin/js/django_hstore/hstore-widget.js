@@ -1,13 +1,9 @@
-var xD = $;
-
 var initDjangoHStoreWidget = function(hstore_field_name, inline_prefix) {
     // ignore inline templates
     // if hstore_field_name contains "__prefix__"
     if(hstore_field_name.indexOf('__prefix__') > -1){
         return;
     }
-
-    var $ = django.jQuery;
 
     // processing inlines
     if(hstore_field_name.indexOf('inline') > -1){
@@ -122,8 +118,8 @@ var initDjangoHStoreWidget = function(hstore_field_name, inline_prefix) {
     $hstore.delegate('a.hs-add-row, .hs-add-row a', 'click', function(e) {
         e.preventDefault();
         $hstore.find('.hstore-rows').append(empty_row);
-        xD('.django-select2').djangoSelect2()
-        xD('select').on( 'select2:close', function () {
+        $('.django-select2').djangoSelect2()
+        $('select').on( 'select2:close', function () {
           $(this).focus();
         });
     });
@@ -161,7 +157,7 @@ var initDjangoHStoreWidget = function(hstore_field_name, inline_prefix) {
             hstore_rows.show();
             add_row.show();
 
-            xD('.django-select2').djangoSelect2()
+            $('.django-select2').djangoSelect2()
         }
         else{
             raw_textarea.show();
