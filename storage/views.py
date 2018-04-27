@@ -63,7 +63,7 @@ def search(request):
 
     results = apply_smart_search(query, Item.objects).all()
 
-    if results and len(results) == 1 or getattr(results[0], 'similarity', 0) == 1:
+    if results and (len(results) == 1 or getattr(results[0], 'similarity', 0) == 1):
         return redirect(results[0])
 
     return render(request, 'results.html', {
