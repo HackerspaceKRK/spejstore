@@ -6,6 +6,7 @@ from django.http import Http404, JsonResponse
 from django.contrib.admin.models import LogEntry
 from django_select2.views import AutoResponseView
 from django.db import connection
+from django.db.models import Q
 
 from storage.models import Item, Label
 
@@ -41,15 +42,13 @@ def apply_smart_search(query, objects):
 
     if not general_term:
         return objects
-    objects = objects.annotate(
-        search=SearchVector('name', 'description', 'props', config='simple'),
-        )
     general_term = ' '.join(general_term)
 
     objects = objects.annotate(
+        search=SearchVector('name', 'description', 'props', config='simple'),
         similarity=TrigramSimilarity('name', general_term)
     ).filter(
-        similarity__gte=0.15
+        Q(similarity__gte=0.15) | Q(search__contains=general_term)
     ).order_by('-similarity')
     return objects
 
