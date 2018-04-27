@@ -1,10 +1,12 @@
 import shlex
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchVector, TrigramSimilarity
 from django.http import Http404, JsonResponse
 from django.contrib.admin.models import LogEntry
 from django_select2.views import AutoResponseView
+from django.db.models import Q
+from django.db import connection
 
 from storage.models import Item, Label
 
@@ -19,30 +21,37 @@ def apply_smart_search(query, objects):
             general_term.append(prop)
         else:
             key, value = prop.split(':', 1)
-            if hasattr(Item, key):
+            if key in ['owner', 'taken_by']:
+                filters[key + '__username'] = value
+            elif hasattr(Item, key):
                 filters[key + '__search'] = value
             elif key == 'ancestor':
                 objects = Item.objects.get(pk=value).get_children()
             elif key == 'prop' or value:
                 if key == 'prop':
-                    key, value = value.split(':', 1)
-
-                if 'props__contains' not in filters:
-                    filters['props__contains'] = {}
-                filters['props__contains'] = {key: value}
-
+                    key, _, value = value.partition(':')
+                if not value:
+                    filters['props__isnull'] = {key: False}
+                else:
+                    filters['props__contains'] = {key: value}
             else:
                 # "Whatever:"
                 general_term.append(prop)
 
-    if general_term:
-        objects = objects.annotate(
-            search=SearchVector('name', 'description', 'props', config='simple'),
-            )
-        filters['search'] = ' '.join(general_term)
-
     objects = objects.filter(**filters)
 
+    if not general_term:
+        return objects
+    objects = objects.annotate(
+        search=SearchVector('name', 'description', 'props', config='simple'),
+        )
+    general_term = ' '.join(general_term)
+
+    objects = objects.annotate(
+        similarity=TrigramSimilarity('name', general_term)
+    ).filter(
+        similarity__gte=0.15
+    ).order_by('-similarity')
     return objects
 
 
@@ -53,14 +62,14 @@ def index(request):
 def search(request):
     query = request.GET.get('q', '')
 
-    results = apply_smart_search(query, Item.objects)
+    results = apply_smart_search(query, Item.objects).all()
 
-    if results.count() == 1:
-        return redirect(results.all()[0])
+    if results and len(results) == 1 or getattr(results[0], 'similarity', 0) == 1:
+        return redirect(results[0])
 
     return render(request, 'results.html', {
         'query': query,
-        'results': results.all(),
+        'results': results,
         })
 
 
@@ -104,4 +113,24 @@ class ItemSelectView(AutoResponseView):
                 for obj in context['object_list']
                 ],
             'more': context['page_obj'].has_next()
+        })
+
+
+class PropSelectView(AutoResponseView):
+    def get(self, request, *args, **kwargs):
+        # self.widget = self.get_widget_or_404()
+        self.term = kwargs.get('term', request.GET.get('term', ''))
+        # context = self.get_context_data()
+        with connection.cursor() as c:
+            c.execute("select e from (select skeys(props) as e, count(skeys(props)) as e_count from storage_item group by e order by e_count desc) as xD where e like %s limit 10;", ['%' + self.term + '%'])
+            props = c.fetchall()
+
+        return JsonResponse({
+            'results': [
+                {
+                    'text': p,
+                    'id': p,
+                }
+                for p in props
+                ],
         })

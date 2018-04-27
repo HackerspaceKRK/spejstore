@@ -1,21 +1,11 @@
 from django import forms
 from django.contrib import admin
-from .models import Item, ItemImage, Category, Label
+
 from django_select2.forms import ModelSelect2Widget, Select2MultipleWidget
 
+from .models import Item, ItemImage, Category, Label
+from .widgets import ItemSelectWidget, PropsSelectWidget
 
-class ItemSelectWidget(ModelSelect2Widget):
-    search_fields = [
-        'name__icontains',
-        'description__icontains'
-    ]
-
-    def __init__(self, *args, **kwargs):
-        kwargs['data_view'] = 'item-complete'
-        super(ItemSelectWidget, self).__init__(*args, **kwargs)
-
-    def label_from_instance(self, obj):
-        return obj.name
 
 class ItemForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput())
@@ -25,15 +15,19 @@ class ItemForm(forms.ModelForm):
         exclude = []
         widgets = {
             'parent': ItemSelectWidget,
-            'categories': Select2MultipleWidget
+            'categories': Select2MultipleWidget,
+            'props': PropsSelectWidget
             }
+
 
 class ItemImageInline(admin.TabularInline):
     model = ItemImage
     extra = 1
 
+
 class LabelInline(admin.TabularInline):
     model = Label
+
 
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('_name',)
@@ -74,6 +68,7 @@ class ItemAdmin(admin.ModelAdmin):
     def response_action(self, request, queryset):
         with Item.disabled_tree_trigger():
             return super(ItemAdmin, self).response_action(request, queryset)
+
 
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category)

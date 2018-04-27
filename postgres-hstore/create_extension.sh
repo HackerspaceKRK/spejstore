@@ -9,6 +9,7 @@ set -e
 psql --dbname template1 -U postgres <<EOSQL
     CREATE EXTENSION hstore;
     CREATE EXTENSION ltree;
+    CREATE EXTENSION pg_trgm;
     DROP DATABASE $POSTGRES_USER;
     CREATE DATABASE $POSTGRES_USER TEMPLATE template1;
 EOSQL
