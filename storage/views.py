@@ -5,7 +5,6 @@ from django.contrib.postgres.search import SearchVector, TrigramSimilarity
 from django.http import Http404, JsonResponse
 from django.contrib.admin.models import LogEntry
 from django_select2.views import AutoResponseView
-from django.db.models import Q
 from django.db import connection
 
 from storage.models import Item, Label
@@ -122,7 +121,11 @@ class PropSelectView(AutoResponseView):
         self.term = kwargs.get('term', request.GET.get('term', ''))
         # context = self.get_context_data()
         with connection.cursor() as c:
-            c.execute("select e from (select skeys(props) as e, count(skeys(props)) as e_count from storage_item group by e order by e_count desc) as xD where e like %s limit 10;", ['%' + self.term + '%'])
+            c.execute("""
+            select e from (
+                select skeys(props) as e, count(skeys(props)) as e_count
+                from storage_item group by e order by e_count desc) as xD
+            where e like %s limit 10;""", ['%' + self.term + '%'])
             props = c.fetchall()
 
         return JsonResponse({
