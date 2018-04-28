@@ -76,5 +76,8 @@ admin.site.register(Category)
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
+User.add_to_class('get_short_name', User.get_username)
+User.add_to_class('get_full_name', User.get_username)
+
 admin.site.unregister(User)
 admin.site.unregister(Group)
