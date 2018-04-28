@@ -99,7 +99,7 @@ class ItemSelectView(AutoResponseView):
     def get(self, request, *args, **kwargs):
         self.widget = self.get_widget_or_404()
         self.term = kwargs.get('term', request.GET.get('term', ''))
-        self.object_list = self.get_queryset()
+        self.object_list = apply_smart_search(self.term, Item.objects)
         context = self.get_context_data()
         return JsonResponse({
             'results': [

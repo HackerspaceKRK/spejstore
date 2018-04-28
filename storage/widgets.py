@@ -13,10 +13,6 @@ from django.contrib.admin.widgets import AdminTextareaWidget
 
 
 class ItemSelectWidget(ModelSelect2Widget):
-    search_fields = [
-        'name__icontains',
-        'description__icontains'
-    ]
 
     def __init__(self, *args, **kwargs):
         kwargs['data_view'] = 'item-complete'
