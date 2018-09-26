@@ -111,6 +111,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# select2
+
+SELECT2_JS = 'js/select2.min.js'
+SELECT2_CSS = 'css/select2.min.css'
+SELECT2_I18N_PATH = ''
+
 # LDAP configuration
 
 import ldap
