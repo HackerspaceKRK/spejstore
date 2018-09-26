@@ -125,8 +125,7 @@ class PropSelectView(AutoResponseView):
                 select skeys(props) as e, count(skeys(props)) as e_count
                 from storage_item group by e order by e_count desc) as xD
             where e like %s limit 10;""", ['%' + self.term + '%'])
-            props = c.fetchall()
-
+            props = [e[0] for e in c.fetchall()]
         return JsonResponse({
             'results': [
                 {

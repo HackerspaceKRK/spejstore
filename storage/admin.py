@@ -14,7 +14,7 @@ class ItemForm(forms.ModelForm):
         model = Item
         exclude = []
         widgets = {
-            'parent': ItemSelectWidget,
+            'parent': ItemSelectWidget(model=Item),
             'categories': Select2MultipleWidget,
             'props': PropsSelectWidget
             }

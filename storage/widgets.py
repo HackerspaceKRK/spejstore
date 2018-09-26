@@ -36,13 +36,13 @@ class PropsSelectWidget(DictionaryFieldWidget):
         # get default HTML from AdminTextareaWidget
         html = AdminTextareaWidget.render(self, name, value, attrs)
         # prepare template context
-        template_context = Context({
+        template_context = {
             'field_name': name,
             'STATIC_URL': settings.STATIC_URL,
             'use_svg': parse_version(get_version()) >= parse_version('1.9'),  # use svg icons if django >= 1.9
             'ajax_url': reverse('prop-complete'),
-            'w': w.build_attrs()
-        })
+            'w': w.build_attrs(base_attrs=w.attrs)
+        }
         # get template object
         template = get_template('hstore_%s_widget.html' % self.admin_style)
         # render additional html
