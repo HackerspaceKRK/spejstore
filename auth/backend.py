@@ -37,20 +37,3 @@ class HSWawOAuth2(BaseOAuth2):
         params.update(self.auth_extra_arguments())
         params = urlencode(params)
         return '{0}?{1}'.format(self.authorization_url(), params)
-
-    def get_user(self, user_id):
-        """
-        Return user with given ID from the User model used by this backend.
-        This is called by django.contrib.auth.middleware.
-        """
-        return self.strategy.get_user(user_id)
-
-    def pipeline(self, pipeline, pipeline_index=0, *args, **kwargs):
-        out = self.run_pipeline(pipeline, pipeline_index, *args, **kwargs)
-        if not isinstance(out, dict):
-            return out
-        user = out.get('user')
-        if user:
-            user.social_user = out.get('social')
-            user.is_new = out.get('is_new')
-        return user
