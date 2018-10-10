@@ -12,6 +12,8 @@ from rest_framework import routers
 
 from storage import apiviews
 
+from auth.views import auth_redirect
+
 
 router = routers.DefaultRouter()
 router.register(r'items', apiviews.ItemViewSet)
@@ -20,6 +22,7 @@ router.register(r'labels', apiviews.LabelViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+    url(r'^admin/login/.*', auth_redirect),
     url(r'^admin/', admin.site.urls),
     url(r'^select2/', include('django_select2.urls')),
 
