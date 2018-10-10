@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from django_select2.forms import ModelSelect2Widget, Select2MultipleWidget
 
+
 from .models import Item, ItemImage, Category, Label
 from .widgets import ItemSelectWidget, PropsSelectWidget
 
@@ -91,3 +92,8 @@ User.add_to_class('get_full_name', User.get_username)
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
+
+from social_django.admin import UserSocialAuth, Nonce, Association
+admin.site.unregister(UserSocialAuth)
+admin.site.unregister(Nonce)
+admin.site.unregister(Association)
