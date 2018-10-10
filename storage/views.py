@@ -121,10 +121,13 @@ class PropSelectView(AutoResponseView):
         # context = self.get_context_data()
         with connection.cursor() as c:
             c.execute("""
-            select e from (
-                select skeys(props) as e, count(skeys(props)) as e_count
-                from storage_item group by e order by e_count desc) as xD
-            where e like %s limit 10;""", ['%' + self.term + '%'])
+                SELECT key, count(*) FROM
+                (SELECT (each(props)).key FROM storage_item) AS stat
+                WHERE key like %s
+                GROUP BY key
+                ORDER BY count DESC, key
+                limit 10;
+            """, ['%' + self.term + '%'])
             props = [e[0] for e in c.fetchall()]
         return JsonResponse({
             'results': [
