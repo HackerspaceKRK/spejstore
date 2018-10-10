@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^autocomplete.json$', ItemSelectView.as_view(), name='item-complete'),
     url(r'^autocomplete_prop.json$', PropSelectView.as_view(), name='prop-complete'),
     url(r'^(?P<pk>[^/]*)$', label_lookup, name='label-lookup'),
+    url('', include('social_django.urls', namespace='social')),
 ]

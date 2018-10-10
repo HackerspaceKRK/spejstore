@@ -5,6 +5,7 @@ git+https://github.com/djangonauts/django-hstore@61427e474cb2f4be8fdfce225d78a53
 git+https://github.com/d42/django-tree@687c01c02d91cada9ca1912e34e482da9e73e27a#egg=django-tree
 django-appconf==1.0.2
 django-flat-responsive==2.0
+social-auth-app-django==2.1.0
 django-auth-ldap==1.2.12
 Django-Select2==6.3.1
 djangorestframework==3.5.4
