@@ -29,7 +29,17 @@ class LabelInline(admin.TabularInline):
     model = Label
 
 
-class ItemAdmin(admin.ModelAdmin):
+class StaffModelAdmin(admin.ModelAdmin):
+
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_staff or request.user.is_superuser
+
+    has_change_permission = has_add_permission
+    has_delete_permission = has_add_permission
+    has_module_permission = has_add_permission
+
+
+class ItemAdmin(StaffModelAdmin):
     list_display = ('_name',)
     list_filter = ('categories',)
     form = ItemForm
@@ -71,7 +81,7 @@ class ItemAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Item, ItemAdmin)
-admin.site.register(Category)
+admin.site.register(Category, StaffModelAdmin)
 
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
