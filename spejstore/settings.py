@@ -124,20 +124,11 @@ SELECT2_JS = 'js/select2.min.js'
 SELECT2_CSS = 'css/select2.min.css'
 SELECT2_I18N_PATH = ''
 
-# LDAP configuration
-
-import ldap
-from django_auth_ldap.config import LDAPSearch, GroupOfUniqueNamesType, LDAPGroupQuery
-
 AUTHENTICATION_BACKENDS = (
-    'django_auth_ldap.backend.LDAPBackend',
     'auth.backend.HSWawOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-AUTH_LDAP_SERVER_URI = "ldaps://ldap.hackerspace.pl"
-AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=People,dc=hackerspace,dc=pl"
-AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
@@ -149,35 +140,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
     'auth.pipeline.staff_me_up',
     'social_core.pipeline.social_auth.associate_by_email',)
-
-member_ldap_query = (
-    LDAPGroupQuery("cn=fatty,ou=Group,dc=hackerspace,dc=pl") |
-    LDAPGroupQuery("cn=starving,ou=Group,dc=hackerspace,dc=pl") |
-    LDAPGroupQuery("cn=potato,ou=Group,dc=hackerspace,dc=pl"))
-
-AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    "is_active": member_ldap_query,
-    "is_superuser": member_ldap_query, # "cn=staff,ou=Group,dc=hackerspace,dc=pl",
-    "is_staff": member_ldap_query,
-    }
-
-# Populate the Django user from the LDAP directory.
-AUTH_LDAP_USER_ATTR_MAP = {
-    "first_name": "givenName",
-    "last_name": "sn",
-    "email": "mail"
-}
-
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch("ou=Group,dc=hackerspace,dc=pl",
-    ldap.SCOPE_SUBTREE, "(objectClass=groupOfUniqueNames)"
-)
-AUTH_LDAP_GROUP_TYPE = GroupOfUniqueNamesType(name_attr="cn")
-
-import logging
-
-logger = logging.getLogger('django_auth_ldap')
-logger.addHandler(logging.StreamHandler())
-logger.setLevel(logging.DEBUG)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
