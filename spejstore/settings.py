@@ -25,7 +25,7 @@ SECRET_KEY = '#hjthi7_udsyt*9eeyb&nwgw5x=%pk_lnz3+u2tg9@=w3p1m*k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['devinventory', 'inventory.waw.hackerspace.pl', 'i', 'inventory']
 LOGIN_REDIRECT_URL = '/admin/'
 
 
