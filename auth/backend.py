@@ -15,17 +15,21 @@ class HSWawOAuth2(BaseOAuth2):
     ]
 
     def get_user_details(self, response):
-        """Return user details from GitHub account"""
+        """Return user details from Hackerspace account"""
+        personal_email = None
+        if response.get('personal_email'):
+            personal_email = response.get('personal_email')[0]
+
         return {'username': response.get('username'),
                 'email': response.get('email'),
+                'personal_email': personal_email,
                 }
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
         url = 'https://sso.hackerspace.pl/api/1/profile'
         headers = {
-        'Authorization': 'Bearer {}'.format(access_token)
-
+            'Authorization': 'Bearer {}'.format(access_token)
         }
         return self.get_json(url, headers=headers)
 
