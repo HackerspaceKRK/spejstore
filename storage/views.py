@@ -2,7 +2,7 @@ import shlex
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.postgres.search import SearchVector, TrigramSimilarity
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.contrib.admin.models import LogEntry
 from django_select2.views import AutoResponseView
 from django.db import connection
@@ -10,6 +10,8 @@ from django.db.models import Q
 
 from storage.models import Item, Label
 
+from django.contrib.auth.decorators import login_required
+from rest_framework.authtoken.models import Token
 
 def apply_smart_search(query, objects):
     general_term = []
@@ -93,6 +95,13 @@ def item_display(request, pk):
 def label_lookup(request, pk):
     label = get_object_or_404(Label, pk=pk)
     return redirect(label.item)
+
+
+@login_required
+def apitoken(request):
+    print(Token)
+    token, created = Token.objects.get_or_create(user=request.user)
+    return HttpResponse(token.key, content_type='text/plain')
 
 
 class ItemSelectView(AutoResponseView):

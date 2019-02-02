@@ -14,7 +14,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'build_static')
+PROD = os.getenv('SPEJSTORE_ENV') == 'prod'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -23,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '#hjthi7_udsyt*9eeyb&nwgw5x=%pk_lnz3+u2tg9@=w3p1m*k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not PROD
 
 ALLOWED_HOSTS = ['devinventory', 'inventory.waw.hackerspace.pl', 'i', 'inventory']
 LOGIN_REDIRECT_URL = '/admin/'
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'tree',
     'django_select2',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_markdown2',
 
     'storage',
@@ -174,12 +176,18 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
 
 SOCIAL_AUTH_HSWAW_KEY = os.getenv('SPEJSTORE_CLIENT_ID')
 SOCIAL_AUTH_HSWAW_SECRET = os.getenv('SPEJSTORE_SECRET')
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = PROD
 
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
