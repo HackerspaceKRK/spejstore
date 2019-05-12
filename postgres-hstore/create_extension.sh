@@ -6,7 +6,7 @@ set -e
 #
 # Running CREATE EXTENSION in both template1 and postgres can lead to
 # the extensions having different eid's.
-psql --dbname template1 -U postgres <<EOSQL
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname template1 <<EOSQL
     CREATE EXTENSION hstore;
     CREATE EXTENSION ltree;
     CREATE EXTENSION pg_trgm;
