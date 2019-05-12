@@ -3,3 +3,8 @@ db.sqlite3
 *.swp
 spejstore.env
 env/
+backups
+media/
+django-tree/
+postgres-hstore/
+.ropeproject/

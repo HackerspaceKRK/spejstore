@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+def env(name, default=None):
+    return os.getenv('SPEJSTORE_' + name, default)
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = os.path.join(BASE_DIR, 'build_static')
@@ -21,12 +25,12 @@ PROD = os.getenv('SPEJSTORE_ENV') == 'prod'
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#hjthi7_udsyt*9eeyb&nwgw5x=%pk_lnz3+u2tg9@=w3p1m*k'
+SECRET_KEY = env('SECRET_KEY', '#hjthi7_udsyt*9eeyb&nwgw5x=%pk_lnz3+u2tg9@=w3p1m*k')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not PROD
 
-ALLOWED_HOSTS = ['devinventory', 'inventory.waw.hackerspace.pl', 'i', 'inventory']
+ALLOWED_HOSTS = env('ALLOWED_HOSTS', 'devinventory,inventory.waw.hackerspace.pl,i,inventory').split(',')
 LOGIN_REDIRECT_URL = '/admin/'
 
 
@@ -93,11 +97,12 @@ WSGI_APPLICATION = 'spejstore.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'ENGINE': env('DB_ENGINE', 'django.db.backends.postgresql_psycopg2'),
+        'NAME': env('DB_NAME', 'postgres'),
+        'USER': env('DB_USER', 'postgres'),
+        'PASSWORD': env('DB_PASSWORD', None),
+        'HOST': env('DB_HOST', 'db'),
+        'PORT': env('DB_PORT', 5432),
     }
 }
 
@@ -149,27 +154,21 @@ SOCIAL_AUTH_PIPELINE = (
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = env('MEDIA_ROOT', os.path.join(BASE_DIR, "media"))
 
 # REST Framework
 REST_FRAMEWORK = {
@@ -185,10 +184,10 @@ REST_FRAMEWORK = {
     ]
 }
 
-SOCIAL_AUTH_HSWAW_KEY = os.getenv('SPEJSTORE_CLIENT_ID')
-SOCIAL_AUTH_HSWAW_SECRET = os.getenv('SPEJSTORE_SECRET')
+SOCIAL_AUTH_HSWAW_KEY = env('CLIENT_ID')
+SOCIAL_AUTH_HSWAW_SECRET = env('SECRET')
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = PROD
 
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
-LABEL_API = 'http://label.waw.hackerspace.pl:4567'
+LABEL_API = env('LABEL_API', 'http://label.waw.hackerspace.pl:4567')
