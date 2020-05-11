@@ -3,8 +3,12 @@ services:
   db:
     build: postgres-hstore
     restart: always
+    # NOTE: Comment out `volumes` for development
     volumes:
       - /var/spejstore-data:/var/lib/postgresql/data
+    # NOTE: Uncomment this awful thing for development
+    # environment:
+      # - POSTGRES_HOST_AUTH_METHOD=trust
 
   web:
     build: .
@@ -19,4 +23,5 @@ services:
 
     env_file:
       - spejstore-dev.env
+      # NOTE: Comment out this for development
       - spejstore.env
