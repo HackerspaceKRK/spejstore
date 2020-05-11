@@ -50,7 +50,7 @@
                         {% csrf_token %}
                         <button class="btn btn-default btn-lg btn-primary"><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;PRINT&nbsp;x&nbsp;2</button>
                     </form>
-                    <form action="/api/1/labels/{{ label.id }}/print" method="POST" target="printframe" onsubmit="return confirm('Want to print this labels?')" style="display:inline-block">
+                    <form action="/api/1/labels/{{ label.id }}/print/" method="POST" target="printframe" onsubmit="return confirm('Want to print this labels?')" style="display:inline-block">
                         {% csrf_token %}
                         <button class="btn btn-default btn-lg"><i class="glyphicon glyphicon-print"></i></button>
                         {% if not has_one_label %}
