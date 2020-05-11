@@ -63,6 +63,10 @@ class Item(models.Model, TreeModelMixin):
 
     objects = hstore.HStoreManager()
 
+    def short_id(self):
+        # let's just hope we never have 4 294 967 296 things :)
+        return str(self.pk)[:8] # collisions? what collisions?
+
     def __str__(self):
         return '- ' * (self.get_level() or 0) + self.name
 

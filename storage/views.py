@@ -98,8 +98,16 @@ def item_display(request, pk):
 
 
 def label_lookup(request, pk):
-    label = get_object_or_404(Label, pk=pk)
-    return redirect(label.item)
+    try:
+        label = Label.objects.get(pk=pk)
+        return redirect(label.item)
+    except Label.DoesNotExist:
+        try:
+            # look up by short id
+            item = Item.objects.get(uuid__startswith=pk)
+            return redirect(item)
+        except Item.DoesNotExist:
+            raise Http404("Very sad to say, I could not find this thing")
 
 
 @login_required
