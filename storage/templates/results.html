@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% include "widgets/bigsearch.html" %}
+    <br />
     {% include "widgets/itemlist.html" with list=results show_paths=True show_placeholder=True %}
 {% endblock %}
