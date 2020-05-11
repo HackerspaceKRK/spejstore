@@ -12,7 +12,8 @@ Please use Python3, for the love of `$deity`...
     ```sh
     docker-compose up --build
     ```
-
+3. Open `spejstore/urls.py` and comment out `url(r'^admin/login/.*', auth_redirect),`
+4. Run `docker-compose run --rm web python manage.py createsuperuser` -- now you can dev authenticate w/o SSO
 
 ### Build & run
 
