@@ -56,7 +56,9 @@ def apply_smart_search(query, objects):
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'results.html', {
+            'results': Item.get_roots()
+            })
 
 
 def search(request):
@@ -75,9 +77,7 @@ def search(request):
 
 def item_display(request, pk):
     if not pk:
-        return render(request, 'results.html', {
-            'results': Item.get_roots()
-            })
+        return index(request)
     item = get_object_or_404(Item, pk=pk)
 
     labels = item.labels.all()
