@@ -32,8 +32,10 @@ class LabelViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['post'], permission_classes=[AllowAny])
     def print(self, request, pk):
+        quantity = min(int(request.query_params.get('quantity', 1)), 5)
         obj = self.get_object()
-        obj.print()
+        for _ in range(quantity):
+            obj.print()
         return obj
 
 
