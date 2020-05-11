@@ -81,6 +81,9 @@ class ItemAdmin(StaffModelAdmin):
             return super(ItemAdmin, self).response_action(request, queryset)
 
 
+admin.site.site_title = 'Hackerspace Storage Admin'
+admin.site.site_header = 'Hackerspace Storage Admin'
+
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category, StaffModelAdmin)
 

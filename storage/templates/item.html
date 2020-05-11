@@ -2,7 +2,7 @@
 
 {% block content %}
     <ol class="breadcrumb">
-        <li><a href="/item/">Everything</a></li>
+        <li><a href="/item/">All</a></li>
         {% for ancestor in ancestors %}
             <li><a href="{{ ancestor.get_absolute_url }}">{{ ancestor.name }}</a></li>
         {% endfor %}
