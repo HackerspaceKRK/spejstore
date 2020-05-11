@@ -12,10 +12,28 @@
         <small class="pull-right"><a href="{% url 'admin:storage_item_change' item.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></small>
 
         {% include "widgets/categoryicon.html" with category=item.primary_category %}
-        {{ item.name }} <small>{{ item.pk }}</small>
+        {{ item.name }}
     </h2>
     <div class="row">
         <div class="col-md-4">
+            {% if labels %}
+            <h3>Labels</h3>
+            <iframe name="printframe" style="display: none"></iframe>
+            {% for label in labels %}
+                <div class="label-item">
+                    <form action="/api/1/labels/{{ label.id }}/print/?quantity=2" method="POST" target="printframe" onsubmit="return confirm('Want to print 2 labels?')" style="display:inline-block">
+                        {% csrf_token %}
+                        <button class="btn btn-default btn-sm btn-primary"><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;PRINT&nbsp;x&nbsp;2</button>
+                    </form>
+                    <form action="/api/1/labels/{{ label.id }}/print" method="POST" target="printframe" onsubmit="return confirm('Want to print this labels?')" style="display:inline-block">
+                        {% csrf_token %}
+                        <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-print"></i></button>
+                        <code>{{ label.id }}</code>
+                    </form>
+                </div>
+            {% endfor %}
+            {% endif %}
+
             <h3>Details</h3>
             <table class="table table-hover table-striped">
                 {% if item.owner %}
@@ -34,8 +52,11 @@
                 {% if item.taken_until %}
                 <tr><td>taken until</td><td>{{ item.taken_until }}</td></tr>
                 {% endif %}
+
+                <tr><td>pk</td><td><small>{{ item.pk }}</small></td></tr>
             </table>
 
+            {% if item.props.items %}
             <h3>Properties</h3>
             <table class="table table-hover table-striped">
                 <thead>
@@ -46,10 +67,9 @@
                 </thead>
                 {% for k, v in item.props.items %}
                 <tr><td>{{ k }}</td><td>{{ v|urlize }}</td></tr>
-                {% empty %}
-                <tr><td colspan=2 class="placeholder">No properties</td></tr>
                 {% endfor %}
             </table>
+            {% endif %}
 
             {% if categories %}
             <h3>Categories</h3>
@@ -78,20 +98,6 @@
                 </div>
                 {% endfor %}
             </div>
-            {% endif %}
-
-            {% if labels %}
-            <h3>Labels</h3>
-            <iframe name="printframe" style="display: none"></iframe>
-            {% for label in labels %}
-                <form action="/api/1/labels/{{ label.id }}/print/" method="POST" target="printframe" onsubmit="return confirm('Want to print this label?')">
-                    {% csrf_token %}
-                    <div class="label-item">
-                    <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-print"></i></button>
-                    <code>{{ label.id }}</code>
-                    </div>
-                </form>
-            {% endfor %}
             {% endif %}
 
             {% if history %}
