@@ -16,31 +16,14 @@
     </h2>
     <div class="row">
         <div class="col-md-4">
-            {% if labels %}
-            <h3>Labels</h3>
-            <iframe name="printframe" style="display: none"></iframe>
-            {% for label in labels %}
-                <div class="label-item">
-                    <form action="/api/1/labels/{{ label.id }}/print/?quantity=2" method="POST" target="printframe" onsubmit="return confirm('Want to print 2 labels?')" style="display:inline-block">
-                        {% csrf_token %}
-                        <button class="btn btn-default btn-sm btn-primary"><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;PRINT&nbsp;x&nbsp;2</button>
-                    </form>
-                    <form action="/api/1/labels/{{ label.id }}/print" method="POST" target="printframe" onsubmit="return confirm('Want to print this labels?')" style="display:inline-block">
-                        {% csrf_token %}
-                        <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-print"></i></button>
-                        <code>{{ label.id }}</code>
-                    </form>
-                </div>
-            {% endfor %}
-            {% endif %}
-
-            <h3>Details</h3>
             <table class="table table-hover table-striped">
                 {% if item.owner %}
                 <tr><td>owner</td><td>{{ item.owner }}</td></tr>
                 {% endif %}
 
+                {% if item.state != "present" %}
                 <tr><td>state</td><td>{{ item.state }}</td></tr>
+                {% endif %}
                 {% if item.taken_by %}
                 <tr><td>taken by</td><td>{{ item.taken_by }}</td></tr>
                 {% endif %}
@@ -53,8 +36,29 @@
                 <tr><td>taken until</td><td>{{ item.taken_until }}</td></tr>
                 {% endif %}
 
-                <tr><td>pk</td><td><small>{{ item.pk }}</small></td></tr>
+                <!-- no one cares, except for dev? -->
+                <!-- <tr><td>pk</td><td><small>{{ item.pk }}</small></td></tr> -->
             </table>
+
+            {% if labels and not has_one_label %}
+            <h3>Labels</h3>
+            {% endif %}
+            <iframe name="printframe" style="display: none"></iframe>
+            {% for label in labels %}
+                <div class="label-item">
+                    <form action="/api/1/labels/{{ label.id }}/print/?quantity=2" method="POST" target="printframe" onsubmit="return confirm('Want to print 2 labels?')" style="display:inline-block">
+                        {% csrf_token %}
+                        <button class="btn btn-default btn-lg btn-primary"><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;PRINT&nbsp;x&nbsp;2</button>
+                    </form>
+                    <form action="/api/1/labels/{{ label.id }}/print" method="POST" target="printframe" onsubmit="return confirm('Want to print this labels?')" style="display:inline-block">
+                        {% csrf_token %}
+                        <button class="btn btn-default btn-lg"><i class="glyphicon glyphicon-print"></i></button>
+                        {% if not has_one_label %}
+                        <code>{{ label.id }}</code>
+                        {% endif %}
+                    </form>
+                </div>
+            {% endfor %}
 
             {% if item.props.items %}
             <h3>Properties</h3>

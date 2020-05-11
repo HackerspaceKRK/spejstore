@@ -80,12 +80,16 @@ def item_display(request, pk):
             })
     item = get_object_or_404(Item, pk=pk)
 
+    labels = item.labels.all()
+    has_one_label = len(labels) == 1
+
     return render(request, 'item.html', {
         'item': item,
         'categories': item.categories.all(),
         'props': sorted(item.props.items()),
         'images': item.images.all(),
-        'labels': item.labels.all(),
+        'labels': labels,
+        'has_one_label': has_one_label,
         'history': LogEntry.objects.filter(object_id=item.pk),
         'ancestors': item.get_ancestors(),
         'children': item.get_children().prefetch_related('categories'),
