@@ -84,6 +84,7 @@ def item_display(request, pk):
     has_one_label = len(labels) == 1
 
     return render(request, 'item.html', {
+        'title': item.name,
         'item': item,
         'categories': item.categories.all(),
         'props': sorted(item.props.items()),
