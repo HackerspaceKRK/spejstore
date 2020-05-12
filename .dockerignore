@@ -9,3 +9,5 @@ django-tree/
 postgres-hstore/
 .ropeproject/
 docker-compose.yml
+docker-compose.override.yml
+build_static
