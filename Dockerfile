@@ -1,4 +1,4 @@
-FROM python:3.5
+FROM python:3.5.9@sha256:3a71fd2dac2343263993f4ab898c9398dfbfd0235dafe41e784876b69bdfa899
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code

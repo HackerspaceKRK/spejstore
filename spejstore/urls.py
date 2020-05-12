@@ -21,8 +21,9 @@ router.register(r'labels', apiviews.LabelViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
-urlpatterns = [
+urlpatterns = ([
     url(r'^admin/login/.*', auth_redirect),
+] if settings.PROD else []) + [
     url(r'^admin/', admin.site.urls),
     url(r'^select2/', include('django_select2.urls')),
 
