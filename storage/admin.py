@@ -30,17 +30,17 @@ class LabelInline(admin.TabularInline):
     model = Label
 
 
-class StaffModelAdmin(admin.ModelAdmin):
+class ModelAdminMixin(object):
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_staff or request.user.is_superuser
+        return request.user.is_authenticated()
 
     has_change_permission = has_add_permission
     has_delete_permission = has_add_permission
     has_module_permission = has_add_permission
 
 
-class ItemAdmin(StaffModelAdmin):
+class ItemAdmin(ModelAdminMixin, admin.ModelAdmin):
     list_display = ('_name',)
     list_filter = ('categories',)
     form = ItemForm
@@ -81,11 +81,15 @@ class ItemAdmin(StaffModelAdmin):
             return super(ItemAdmin, self).response_action(request, queryset)
 
 
+class NormalModelAdmin(ModelAdminMixin, admin.ModelAdmin):
+    pass
+
+
 admin.site.site_title = 'Hackerspace Storage Admin'
 admin.site.site_header = 'Hackerspace Storage Admin'
 
 admin.site.register(Item, ItemAdmin)
-admin.site.register(Category, StaffModelAdmin)
+admin.site.register(Category, NormalModelAdmin)
 
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
