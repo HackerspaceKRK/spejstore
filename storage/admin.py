@@ -7,6 +7,15 @@ from django_select2.forms import ModelSelect2Widget, Select2MultipleWidget
 from .models import Item, ItemImage, Category, Label
 from .widgets import ItemSelectWidget, PropsSelectWidget
 
+class ModelAdminMixin(object):
+
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_authenticated()
+
+    has_change_permission = has_add_permission
+    has_delete_permission = has_add_permission
+    has_module_permission = has_add_permission
+
 
 class ItemForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput())
@@ -21,23 +30,14 @@ class ItemForm(forms.ModelForm):
             }
 
 
-class ItemImageInline(admin.TabularInline):
+class ItemImageInline(ModelAdminMixin, admin.TabularInline):
     model = ItemImage
     extra = 1
 
 
-class LabelInline(admin.TabularInline):
+class LabelInline(ModelAdminMixin, admin.TabularInline):
     model = Label
 
-
-class ModelAdminMixin(object):
-
-    def has_add_permission(self, request, obj=None):
-        return request.user.is_authenticated()
-
-    has_change_permission = has_add_permission
-    has_delete_permission = has_add_permission
-    has_module_permission = has_add_permission
 
 
 class ItemAdmin(ModelAdminMixin, admin.ModelAdmin):
