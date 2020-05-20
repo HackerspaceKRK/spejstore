@@ -10,7 +10,7 @@ class ItemSerializer(HStoreSerializer):
     taken_by = serializers.SlugRelatedField(queryset=User.objects, slug_field='username')
     class Meta:
         model = Item
-        fields = ('uuid', 'short_id', 'name', 'description', 'props', 'state', 'parent', 'owner', 'taken_by', 'taken_on', 'taken_until', 'categories')
+        fields = ('uuid', 'short_id', 'name', 'description', 'props', 'state', 'parent', 'labels', 'owner', 'taken_by', 'taken_on', 'taken_until', 'categories')
 
 class LabelSerializer(serializers.ModelSerializer):
     item = ItemSerializer(required=False)
