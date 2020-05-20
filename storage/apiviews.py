@@ -72,6 +72,15 @@ class ItemViewSet(viewsets.ModelViewSet):
             except Label.DoesNotExist:
                 raise Http404()
 
+    @detail_route(methods=['post'], permission_classes=[AllowAny])
+    def print(self, request, pk):
+        # todo: deduplicate
+        quantity = min(int(request.query_params.get('quantity', 1)), 5)
+        obj = self.get_object()
+        for _ in range(quantity):
+            obj.print()
+        return obj
+
     @detail_route()
     def children(self, request, pk):
         item = self.get_object()

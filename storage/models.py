@@ -89,6 +89,12 @@ class Item(models.Model, TreeModelMixin):
     def primary_category(self):
         return next((c for c in self.categories.all() if c.icon_id), None)
 
+    def print(self):
+        # todo: deduplicate
+        resp = requests.post(
+            '{}/api/1/print/{}'.format(settings.LABEL_API, self.short_id()))
+        resp.raise_for_status()
+
     class Meta:
         ordering = ('path',)
 
