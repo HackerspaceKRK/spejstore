@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny
 
 from storage.models import Item, Label
 from storage.serializers import ItemSerializer, LabelSerializer
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 
 from storage.views import apply_smart_search
@@ -55,10 +56,21 @@ class ItemViewSet(viewsets.ModelViewSet):
     def get_object(self):
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
 
-        obj = get_object_or_404(Item, pk=self.kwargs[lookup_url_kwarg])
+        obj = self.get_item_by_id_or_label(self.kwargs[lookup_url_kwarg])
         self.check_object_permissions(self.request, obj)
 
         return obj
+
+    def get_item_by_id_or_label(self, id):
+        try:
+            item = Item.objects.get(uuid__startswith=id) # look up by short id
+            return item
+        except Item.DoesNotExist:
+            try:
+                label = Label.objects.get(pk=id)
+                return label.item
+            except Label.DoesNotExist:
+                raise Http404()
 
     @detail_route()
     def children(self, request, pk):
