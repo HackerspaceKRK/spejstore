@@ -28,7 +28,7 @@ PROD = os.getenv('SPEJSTORE_ENV') == 'prod'
 SECRET_KEY = env('SECRET_KEY', '#hjthi7_udsyt*9eeyb&nwgw5x=%pk_lnz3+u2tg9@=w3p1m*k')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not PROD
+DEBUG = True
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', 'devinventory,inventory.waw.hackerspace.pl,i,inventory').split(',')
 LOGIN_REDIRECT_URL = '/admin/'
@@ -184,9 +184,9 @@ REST_FRAMEWORK = {
     ]
 }
 
-SOCIAL_AUTH_HSWAW_KEY = env('CLIENT_ID')
-SOCIAL_AUTH_HSWAW_SECRET = env('SECRET')
-SOCIAL_AUTH_REDIRECT_IS_HTTPS = PROD
+SOCIAL_AUTH_HSWRO_KEY = env('CLIENT_ID')
+SOCIAL_AUTH_HSWRO_SECRET = env('SECRET')
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 

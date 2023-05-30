@@ -39,7 +39,6 @@ class LabelViewSet(viewsets.ModelViewSet):
             obj.print()
         return obj
 
-
 class ItemViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows items to be viewed or edited.

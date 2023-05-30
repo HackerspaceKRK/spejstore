@@ -3,10 +3,10 @@ from six.moves.urllib_parse import urlencode, unquote
 
 class HSWawOAuth2(BaseOAuth2):
     """Hackerspace OAuth authentication backend"""
-    name = 'hswaw'
+    name = 'hswro'
     ID_KEY = 'username'
-    AUTHORIZATION_URL = 'https://sso.hackerspace.pl/oauth/authorize'
-    ACCESS_TOKEN_URL = 'https://sso.hackerspace.pl/oauth/token'
+    AUTHORIZATION_URL = 'http://sso.lokal.hswro.org/oauth/authorize'
+    ACCESS_TOKEN_URL = 'http://sso.lokal.hswro.org/oauth/token'
     DEFAULT_SCOPE = ['profile:read']
     REDIRECT_STATE = False
     SCOPE_SEPARATOR = ','
@@ -27,7 +27,7 @@ class HSWawOAuth2(BaseOAuth2):
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
-        url = 'https://sso.hackerspace.pl/api/1/profile'
+        url = 'http://sso.lokal.hswro.org/api/1/profile'
         headers = {
             'Authorization': 'Bearer {}'.format(access_token)
         }

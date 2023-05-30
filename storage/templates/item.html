@@ -40,6 +40,9 @@
                     </ul>
                 </div>
                 <a href="{% url 'admin:storage_item_change' item.pk %}" class="btn btn-default">Edit</a>
+		{% if item.props.wiki %}
+                <a href="https://wiki.hswro.org/{{ item.props.wiki }}" class="btn btn-info">Wiki</a>
+ 		{% endif %}
             </div>
 
             <table class="table table-hover table-striped">
@@ -61,11 +64,10 @@
                 {% if item.taken_until %}
                 <tr><td>taken until</td><td>{{ item.taken_until }}</td></tr>
                 {% endif %}
-
                 <!-- no one cares, except for dev? -->
                 <!-- <tr><td>pk</td><td><small>{{ item.pk }}</small></td></tr> -->
                 <!-- <tr><td>short_id</td><td><small>{{ item.short_id }}</small></td></tr> -->
-
+		<!-- <tr><td>label</td><td><img style="width: 200px;" src="https://labelmaker.lokal.hswro.org/api/1/preview/{{ item.short_id }}.png"/></td></tr> -->
                 {% for category in categories %}
                 <tr>
                 <td>

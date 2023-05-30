@@ -5,7 +5,8 @@ services:
     restart: always
     environment:
      - POSTGRES_HOST_AUTH_METHOD=trust
-
+    volumes:
+     - /var/spejstore-data:/var/lib/postgresql/data
   web:
     build: .
     restart: always
@@ -13,10 +14,8 @@ services:
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
+      - "8021:8000"
     depends_on:
       - db
-    environment:
-      - SPEJSTORE_CLIENT_ID
-      - SPEJSTORE_SECRET
-      - SPEJSTORE_ENV
+    env_file:
+      - spejstore.env

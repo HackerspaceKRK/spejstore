@@ -111,7 +111,7 @@ class Label(models.Model):
     id = models.CharField(max_length=64, primary_key=True)
     item = models.ForeignKey(Item, related_name='labels')
     style = models.CharField(max_length=32, choices=(
-        ('basic_99012_v1', 'Basic Dymo 89x36mm label'),
+        ('basic_99012_v1', 'Basic Zebra label'),
         ), default='basic_99012_v1')
     created = models.DateTimeField(auto_now_add=True, blank=True)
 

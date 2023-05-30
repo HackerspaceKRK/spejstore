@@ -1,3 +1,4 @@
+PyJWT==2.0.0a1
 certifi==2017.4.17
 chardet==3.0.3
 Django==1.11.15
