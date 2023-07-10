@@ -59,7 +59,7 @@ def apply_smart_search(query, objects):
 
 
 def index(request):
-    return render(request, "results.html", {"results": Item.get_roots()})
+    return render(request, "results.html", {"results": Item.objects.filter_roots()})
 
 
 def search(request):

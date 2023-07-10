@@ -32,7 +32,9 @@ SECRET_KEY = env("SECRET_KEY", "#hjthi7_udsyt*9eeyb&nwgw5x=%pk_lnz3+u2tg9@=w3p1m
 DEBUG = not PROD
 
 ALLOWED_HOSTS = env(
-    "ALLOWED_HOSTS", "devinventory,inventory.waw.hackerspace.pl,i,inventory"
+    "ALLOWED_HOSTS",
+    "devinventory,inventory.waw.hackerspace.pl,i,inventory"
+    + (",127.0.0.1" if PROD != True else ""),
 ).split(",")
 LOGIN_REDIRECT_URL = "/admin/"
 
@@ -40,7 +42,6 @@ LOGIN_REDIRECT_URL = "/admin/"
 # Application definition
 
 INSTALLED_APPS = [
-    "flat_responsive",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -49,13 +50,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.postgres",
     "social_django",
-    "django_hstore",
     "tree",
     "django_select2",
     "rest_framework",
     "rest_framework.authtoken",
     "django_markdown2",
     "storage",
+    "django_admin_hstore_widget",
 ]
 
 MIDDLEWARE = [
@@ -125,11 +126,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# select2
-
-SELECT2_JS = "js/select2.min.js"
-SELECT2_CSS = "css/select2.min.css"
-SELECT2_I18N_PATH = ""
 
 AUTHENTICATION_BACKENDS = (
     "auth.backend.HSWawOAuth2",

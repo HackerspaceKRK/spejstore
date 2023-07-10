@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
-import django_hstore.fields
+from django.contrib.postgres.fields import HStoreField
 
 
 class Migration(migrations.Migration):
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="item",
             name="props",
-            field=django_hstore.fields.DictionaryField(blank=True),
+            field=HStoreField(blank=True),
         ),
         migrations.AddField(
             model_name="label",

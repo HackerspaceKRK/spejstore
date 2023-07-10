@@ -3,7 +3,9 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import django_hstore.fields
+from django.contrib.postgres.fields import HStoreField
+from django.contrib.postgres.operations import HStoreExtension
+from django.contrib.postgres.operations import TrigramExtension
 
 
 class Migration(migrations.Migration):
@@ -12,6 +14,8 @@ class Migration(migrations.Migration):
     dependencies = []
 
     operations = [
+        HStoreExtension(),
+        TrigramExtension(),
         migrations.CreateModel(
             name="Item",
             fields=[
@@ -26,7 +30,7 @@ class Migration(migrations.Migration):
                 ),
                 ("name", models.TextField()),
                 ("description", models.TextField()),
-                ("props", django_hstore.fields.DictionaryField()),
+                ("props", HStoreField()),
             ],
         ),
     ]

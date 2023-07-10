@@ -5,7 +5,11 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import django_hstore.fields
+from django.contrib.postgres.fields import HStoreField
+from django.contrib.postgres.operations import HStoreExtension
+from django.contrib.postgres.operations import TrigramExtension
+
+
 import uuid
 
 
@@ -28,12 +32,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        HStoreExtension(),
+        TrigramExtension(),
         migrations.CreateModel(
             name="Item",
             fields=[
                 ("name", models.TextField()),
                 ("description", models.TextField(blank=True)),
-                ("props", django_hstore.fields.DictionaryField()),
+                ("props", HStoreField()),
                 (
                     "uuid",
                     models.UUIDField(

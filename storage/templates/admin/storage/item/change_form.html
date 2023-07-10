@@ -1,35 +1,29 @@
-{% extends "admin/change_form.html" %}
-
-{% block submit_buttons_top %}
-    {# We want add another to be default submit action #}
-    <input type="submit" value="Save" class="hidden" name="_addanother" />
-    {{ block.super }}
-{% endblock %}
-
-{% block submit_buttons_bottom %}
-    {# We want add another to be default submit action #}
-    <input type="submit" value="Save" class="hidden" name="_addanother" />
-    {{ block.super }}
-{% endblock %}
-
-{% block content %}{{ block.super }}
+{% extends "admin/change_form.html" %} {% block submit_buttons_top %} {# We want
+add another to be default submit action #}
+<input type="submit" value="Save" class="hidden" name="_addanother" />
+{{ block.super }} {% endblock %} {% block submit_buttons_bottom %} {# We want
+add another to be default submit action #}
+<input type="submit" value="Save" class="hidden" name="_addanother" />
+{{ block.super }} {% endblock %} {% block content %}{{ block.super }}
 <script>
-$(function() {
-    function fmt (state) {
-        if (!state.id) {
-            return state.text;
-        }
-        var result = $('<div><div><small></small></div><b></b></div>');
-        result.find('small').text(state.path.join(' → ')).css({
-            'opacity': 0.6,
-            'letter-spacing': -0.5
-        })
-        result.find('b').text(state.text)
-        return result;
-    };
-    $('.django-select2[name=parent]').djangoSelect2({
-        templateResult: fmt,
+  django.jQuery(function () {
+    function fmt(state) {
+      if (!state.id) {
+        return state.text;
+      }
+      var result = django.jQuery(
+        "<div><div><small></small></div><b></b></div>"
+      );
+      result.find("small").text(state.path.join(" → ")).css({
+        opacity: 0.6,
+        "letter-spacing": -0.5,
+      });
+      result.find("b").text(state.text);
+      return result;
+    }
+    django.jQuery(".django-select2[name=parent]").djangoSelect2({
+      templateResult: fmt,
     });
-});
+  });
 </script>
 {% endblock %}

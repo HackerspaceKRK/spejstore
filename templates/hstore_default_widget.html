@@ -66,5 +66,7 @@
 </script>
 
 <script>
-  django.jQuery(function() { initDjangoHStoreWidget('{{ field_name }}') });
+    window.addEventListener("load", function (event) {
+        django.jQuery(function() { initDjangoHStoreWidget('{{ field_name }}') });
+    });
 </script>

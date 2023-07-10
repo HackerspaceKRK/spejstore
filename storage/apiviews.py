@@ -1,6 +1,7 @@
 from rest_framework import viewsets, generics, filters
 from rest_framework.response import Response
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import action
+
 from rest_framework.permissions import AllowAny
 
 from storage.models import Item, Label
@@ -32,7 +33,7 @@ class LabelViewSet(viewsets.ModelViewSet):
     queryset = Label.objects
     serializer_class = LabelSerializer
 
-    @detail_route(methods=["post"], permission_classes=[AllowAny])
+    @action(detail=True, methods=["post"], permission_classes=[AllowAny])
     def print(self, request, pk):
         quantity = min(int(request.query_params.get("quantity", 1)), 5)
         obj = self.get_object()
@@ -52,7 +53,7 @@ class ItemViewSet(viewsets.ModelViewSet):
     ordering_fields = "__all__"
 
     def get_queryset(self):
-        return Item.get_roots()
+        return Item.objects.filter_roots()
 
     def get_object(self):
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
@@ -73,7 +74,7 @@ class ItemViewSet(viewsets.ModelViewSet):
             except Label.DoesNotExist:
                 raise Http404()
 
-    @detail_route(methods=["post"], permission_classes=[AllowAny])
+    @action(detail=True, methods=["post"], permission_classes=[AllowAny])
     def print(self, request, pk):
         # todo: deduplicate
         quantity = min(int(request.query_params.get("quantity", 1)), 5)
@@ -82,28 +83,36 @@ class ItemViewSet(viewsets.ModelViewSet):
             obj.print()
         return obj
 
-    @detail_route()
+    @action(
+        detail=True,
+    )
     def children(self, request, pk):
         item = self.get_object()
         return Response(
             self.serializer_class(item.get_children().all(), many=True).data
         )
 
-    @detail_route()
+    @action(
+        detail=True,
+    )
     def ancestors(self, request, pk):
         item = self.get_object()
         return Response(
             self.serializer_class(item.get_ancestors().all(), many=True).data
         )
 
-    @detail_route()
+    @action(
+        detail=True,
+    )
     def descendants(self, request, pk):
         item = self.get_object()
         return Response(
             self.serializer_class(item.get_descendants().all(), many=True).data
         )
 
-    @detail_route()
+    @action(
+        detail=True,
+    )
     def siblings(self, request, pk):
         item = self.get_object()
         return Response(

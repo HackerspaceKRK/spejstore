@@ -12,6 +12,6 @@ class Migration(migrations.Migration):
 
     operations = [
         DeleteTreeTrigger("storage.Item"),
-        CreateTreeTrigger("storage.Item", order_by=("name",)),
+        CreateTreeTrigger("storage.Item"),
         RebuildPaths("storage.Item"),
     ]

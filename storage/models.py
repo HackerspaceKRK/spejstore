@@ -6,9 +6,10 @@ import re
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
-from django_hstore import hstore
 from tree.fields import PathField
 from tree.models import TreeModelMixin
+from django.contrib.postgres.fields import HStoreField
+
 
 import requests
 
@@ -46,7 +47,7 @@ class Category(models.Model):
 class Item(models.Model, TreeModelMixin):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    parent = models.ForeignKey("self", null=True, blank=True)
+    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE)
     path = PathField()
 
     name = models.TextField()
@@ -54,17 +55,25 @@ class Item(models.Model, TreeModelMixin):
     description = models.TextField(blank=True, null=True)
     state = models.CharField(max_length=31, choices=STATES, default=STATES[0][0])
     categories = models.ManyToManyField(Category, blank=True)
-    owner = models.ForeignKey(User, null=True, blank=True, related_name="owned_items")
+    owner = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        related_name="owned_items",
+        on_delete=models.CASCADE,
+    )
 
     taken_by = models.ForeignKey(
-        User, null=True, blank=True, related_name="taken_items"
+        User,
+        null=True,
+        blank=True,
+        related_name="taken_items",
+        on_delete=models.CASCADE,
     )
     taken_on = models.DateTimeField(blank=True, null=True)
     taken_until = models.DateTimeField(blank=True, null=True)
 
-    props = hstore.DictionaryField(blank=True)
-
-    objects = hstore.HStoreManager()
+    props = HStoreField(blank=True)
 
     def short_id(self):
         # let's just hope we never have 4 294 967 296 things :)
@@ -105,7 +114,7 @@ class Item(models.Model, TreeModelMixin):
 
 
 class ItemImage(models.Model):
-    item = models.ForeignKey(Item, related_name="images")
+    item = models.ForeignKey(Item, related_name="images", on_delete=models.CASCADE)
     image = models.ImageField()
 
     def __str__(self):
@@ -114,7 +123,7 @@ class ItemImage(models.Model):
 
 class Label(models.Model):
     id = models.CharField(max_length=64, primary_key=True)
-    item = models.ForeignKey(Item, related_name="labels")
+    item = models.ForeignKey(Item, related_name="labels", on_delete=models.CASCADE)
     style = models.CharField(
         max_length=32,
         choices=(("basic_99012_v1", "Basic Dymo 89x36mm label"),),
