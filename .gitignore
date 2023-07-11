@@ -12,3 +12,5 @@ docker-compose.override.yml
 build_static
 .venv
 .vscode
+
+__pycache__
