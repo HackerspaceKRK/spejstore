@@ -8,36 +8,42 @@ import django_hstore.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('storage', '0002_auto_20170215_0115'),
+        ("storage", "0002_auto_20170215_0115"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Label',
+            name="Label",
             fields=[
-                ('id', models.CharField(max_length=64, primary_key=True, serialize=False)),
-                ('revision', models.IntegerField()),
+                (
+                    "id",
+                    models.CharField(max_length=64, primary_key=True, serialize=False),
+                ),
+                ("revision", models.IntegerField()),
             ],
         ),
         migrations.AlterModelOptions(
-            name='item',
-            options={'ordering': ('path',)},
+            name="item",
+            options={"ordering": ("path",)},
         ),
         migrations.AlterField(
-            model_name='item',
-            name='categories',
-            field=models.ManyToManyField(blank=True, to='storage.Category'),
+            model_name="item",
+            name="categories",
+            field=models.ManyToManyField(blank=True, to="storage.Category"),
         ),
         migrations.AlterField(
-            model_name='item',
-            name='props',
+            model_name="item",
+            name="props",
             field=django_hstore.fields.DictionaryField(blank=True),
         ),
         migrations.AddField(
-            model_name='label',
-            name='item',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='labels', to='storage.Item'),
+            model_name="label",
+            name="item",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="labels",
+                to="storage.Item",
+            ),
         ),
     ]

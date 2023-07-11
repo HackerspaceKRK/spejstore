@@ -9,22 +9,26 @@ from tree.operations import CreateTreeTrigger
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('storage', '0001_squashed_0008_item_state'),
-        ('tree', '0001_initial'),
+        ("storage", "0001_squashed_0008_item_state"),
+        ("tree", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='item',
-            name='parent',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='storage.Item'),
+            model_name="item",
+            name="parent",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="storage.Item",
+            ),
         ),
         migrations.AddField(
-            model_name='item',
-            name='path',
+            model_name="item",
+            name="path",
             field=tree.fields.PathField(),
         ),
-        CreateTreeTrigger('storage.Item'),
+        CreateTreeTrigger("storage.Item"),
     ]

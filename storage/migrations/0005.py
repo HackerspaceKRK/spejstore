@@ -4,14 +4,14 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 from tree.operations import CreateTreeTrigger, DeleteTreeTrigger, RebuildPaths
 
-class Migration(migrations.Migration):
 
+class Migration(migrations.Migration):
     dependencies = [
-        ('storage', '0004_auto_20170528_1945'),
+        ("storage", "0004_auto_20170528_1945"),
     ]
 
     operations = [
-        DeleteTreeTrigger('storage.Item'),
-        CreateTreeTrigger('storage.Item', order_by=('name',)),
-        RebuildPaths('storage.Item')
+        DeleteTreeTrigger("storage.Item"),
+        CreateTreeTrigger("storage.Item", order_by=("name",)),
+        RebuildPaths("storage.Item"),
     ]

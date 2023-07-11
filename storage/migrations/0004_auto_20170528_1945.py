@@ -7,25 +7,30 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('storage', '0003_auto_20170424_2002'),
+        ("storage", "0003_auto_20170424_2002"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='label',
-            name='revision',
+            model_name="label",
+            name="revision",
         ),
         migrations.AddField(
-            model_name='label',
-            name='created',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            model_name="label",
+            name="created",
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='label',
-            name='style',
-            field=models.CharField(choices=[('basic_99012_v1', 'Basic Dymo 89x36mm label')], default='basic_99012_v1', max_length=32),
+            model_name="label",
+            name="style",
+            field=models.CharField(
+                choices=[("basic_99012_v1", "Basic Dymo 89x36mm label")],
+                default="basic_99012_v1",
+                max_length=32,
+            ),
         ),
     ]

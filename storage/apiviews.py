@@ -17,7 +17,7 @@ class SmartSearchFilterBackend(filters.BaseFilterBackend):
     """
 
     def filter_queryset(self, request, queryset, view):
-        search_query = request.query_params.get('smartsearch', None)
+        search_query = request.query_params.get("smartsearch", None)
         if search_query:
             return apply_smart_search(search_query, queryset)
 
@@ -28,12 +28,13 @@ class LabelViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows items to be viewed or edited.
     """
+
     queryset = Label.objects
     serializer_class = LabelSerializer
 
-    @detail_route(methods=['post'], permission_classes=[AllowAny])
+    @detail_route(methods=["post"], permission_classes=[AllowAny])
     def print(self, request, pk):
-        quantity = min(int(request.query_params.get('quantity', 1)), 5)
+        quantity = min(int(request.query_params.get("quantity", 1)), 5)
         obj = self.get_object()
         for _ in range(quantity):
             obj.print()
@@ -44,11 +45,11 @@ class ItemViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows items to be viewed or edited.
     """
+
     queryset = Item.objects
     serializer_class = ItemSerializer
     filter_backends = (SmartSearchFilterBackend, filters.OrderingFilter)
-    ordering_fields = '__all__'
-
+    ordering_fields = "__all__"
 
     def get_queryset(self):
         return Item.get_roots()
@@ -63,7 +64,7 @@ class ItemViewSet(viewsets.ModelViewSet):
 
     def get_item_by_id_or_label(self, id):
         try:
-            item = Item.objects.get(uuid__startswith=id) # look up by short id
+            item = Item.objects.get(uuid__startswith=id)  # look up by short id
             return item
         except Item.DoesNotExist:
             try:
@@ -72,10 +73,10 @@ class ItemViewSet(viewsets.ModelViewSet):
             except Label.DoesNotExist:
                 raise Http404()
 
-    @detail_route(methods=['post'], permission_classes=[AllowAny])
+    @detail_route(methods=["post"], permission_classes=[AllowAny])
     def print(self, request, pk):
         # todo: deduplicate
-        quantity = min(int(request.query_params.get('quantity', 1)), 5)
+        quantity = min(int(request.query_params.get("quantity", 1)), 5)
         obj = self.get_object()
         for _ in range(quantity):
             obj.print()
@@ -84,19 +85,27 @@ class ItemViewSet(viewsets.ModelViewSet):
     @detail_route()
     def children(self, request, pk):
         item = self.get_object()
-        return Response(self.serializer_class(item.get_children().all(), many=True).data)
+        return Response(
+            self.serializer_class(item.get_children().all(), many=True).data
+        )
 
     @detail_route()
     def ancestors(self, request, pk):
         item = self.get_object()
-        return Response(self.serializer_class(item.get_ancestors().all(), many=True).data)
+        return Response(
+            self.serializer_class(item.get_ancestors().all(), many=True).data
+        )
 
     @detail_route()
     def descendants(self, request, pk):
         item = self.get_object()
-        return Response(self.serializer_class(item.get_descendants().all(), many=True).data)
+        return Response(
+            self.serializer_class(item.get_descendants().all(), many=True).data
+        )
 
     @detail_route()
     def siblings(self, request, pk):
         item = self.get_object()
-        return Response(self.serializer_class(item.get_siblings().all(), many=True).data)
+        return Response(
+            self.serializer_class(item.get_siblings().all(), many=True).data
+        )
