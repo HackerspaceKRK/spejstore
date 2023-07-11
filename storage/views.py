@@ -59,7 +59,10 @@ def apply_smart_search(query, objects):
 
 
 def index(request):
-    return render(request, "results.html", {"results": Item.objects.filter_roots()})
+    # get_roots was removed, so we're doing it this way now.
+    return render(
+        request, "results.html", {"results": Item.objects.filter(**{"path__level": 1})}
+    )
 
 
 def search(request):
