@@ -1,32 +1,39 @@
 .table td.placeholder {
-    text-align: center;
-    color: #999;
+  text-align: center;
+  color: #999;
 }
 
 .table td.placeholder a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    font-weight: bold;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
 }
 
 .containericon {
-    white-space: nowrap;
-    display: inline-block;
-    vertical-align: middle;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .containericon span {
-    padding-left: 0.5rem;
-    font-weight: bold;
+  padding-left: 0.5rem;
+  font-weight: bold;
 }
 
 .label-item {
-    background: #f5f5f5;
-    border-radius: 3px;
-    display: inline-block;
+  background: #f5f5f5;
+  border-radius: 3px;
+  display: inline-block;
 }
 
 .label-item code {
-    margin: 0em 1em;
+  margin: 0em 1em;
+}
+a {
+  color: #81d4fa !important;
+}
+
+a.navbar-brand {
+  color: #fff !important;
 }
