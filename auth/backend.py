@@ -1,5 +1,5 @@
+from urllib.parse import urlencode
 from social_core.backends.oauth import BaseOAuth2
-from six.moves.urllib_parse import urlencode, unquote
 
 
 class HSWawOAuth2(BaseOAuth2):
