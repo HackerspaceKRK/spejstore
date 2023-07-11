@@ -11,3 +11,7 @@ postgres-hstore/
 docker-compose.yml
 docker-compose.override.yml
 build_static
+.venv
+.vscode
+.history
+log
