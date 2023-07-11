@@ -46,7 +46,7 @@ class ItemAdmin(ModelAdminMixin, admin.ModelAdmin):
     inlines = [ItemImageInline, LabelInline]
     save_on_top = True
     autocomplete_fields = ["parent"]
-    search_fields = ["parent"]
+    search_fields = ["name"]
 
     def _name(self, obj):
         return ("-" * (obj.get_level() or 0)) + "> " + obj.name
@@ -77,6 +77,7 @@ class ItemAdmin(ModelAdminMixin, admin.ModelAdmin):
 
 
 class NormalModelAdmin(ModelAdminMixin, admin.ModelAdmin):
+    search_fields = ["name"]
     pass
 
 
