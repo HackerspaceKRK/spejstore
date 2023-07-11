@@ -33,7 +33,7 @@ DEBUG = not PROD
 
 ALLOWED_HOSTS = env(
     "ALLOWED_HOSTS",
-    "devinventory,inventory.waw.hackerspace.pl,i,inventory"
+    "devinventory,inventory.waw.hackerspace.pl,inventory.hackerspace.pl,i,inventory"
     + (",127.0.0.1" if not PROD else ""),
 ).split(",")
 LOGIN_REDIRECT_URL = "/admin/"
