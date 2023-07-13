@@ -187,3 +187,4 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = PROD
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 
 LABEL_API = env("LABEL_API", "http://label.waw.hackerspace.pl:4567")
+LOGIN_URL = "/admin/login/"
