@@ -58,6 +58,7 @@ def apply_smart_search(query, objects):
     return objects
 
 
+@login_required
 def index(request):
     # get_roots was removed, so we're doing it this way now.
     return render(
@@ -65,6 +66,7 @@ def index(request):
     )
 
 
+@login_required
 def search(request):
     query = request.GET.get("q", "")
 
@@ -83,6 +85,7 @@ def search(request):
     )
 
 
+@login_required
 def item_display(request, pk):
     if not pk:
         return index(request)
