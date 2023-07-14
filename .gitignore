@@ -2,6 +2,7 @@
 db.sqlite3
 *.swp
 spejstore.env
+.env
 env/
 backups
 media/
