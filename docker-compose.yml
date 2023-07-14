@@ -4,12 +4,12 @@ services:
     build: postgres-hstore
     restart: always
     environment:
-     - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_HOST_AUTH_METHOD=trust
 
   web:
     build: .
     restart: always
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py migrate && gunicorn -b 0.0.0.0:8000 spejstore.wsgi:application"
     volumes:
       - .:/code
     ports:
