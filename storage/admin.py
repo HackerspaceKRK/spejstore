@@ -35,15 +35,11 @@ class ItemImageInline(ModelAdminMixin, admin.TabularInline):
     extra = 1
 
 
-class LabelInline(ModelAdminMixin, admin.TabularInline):
-    model = Label
-
-
 class ItemAdmin(ModelAdminMixin, admin.ModelAdmin):
     list_display = ("_name",)
     list_filter = ("categories",)
     form = ItemForm
-    inlines = [ItemImageInline, LabelInline]
+    inlines = [ItemImageInline]
     save_on_top = True
     autocomplete_fields = ["parent"]
     search_fields = ["name"]
