@@ -1,10 +1,18 @@
-{% extends "admin/change_form.html" %} {% block submit_buttons_top %} {# We want
-add another to be default submit action #}
-<input type="submit" value="Save" class="hidden" name="_addanother" />
-{{ block.super }} {% endblock %} {% block submit_buttons_bottom %} {# We want
-add another to be default submit action #}
-<input type="submit" value="Save" class="hidden" name="_addanother" />
-{{ block.super }} {% endblock %} {% block content %}{{ block.super }}
+{% extends "admin/change_form.html" %}
+
+{% block submit_buttons_top %}
+    {# We want add another to be default submit action #}
+    <input type="submit" value="Save" class="hidden" name="_addanother" />
+    {{ block.super }}
+{% endblock %}
+
+{% block submit_buttons_bottom %}
+    {# We want add another to be default submit action #}
+    <input type="submit" value="Save" class="hidden" name="_addanother" />
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}{{ block.super }}
 <script>
   django.jQuery(function () {
     function fmt(state) {
@@ -24,6 +32,15 @@ add another to be default submit action #}
     django.jQuery(".django-select2[name=parent]").djangoSelect2({
       templateResult: fmt,
     });
+    /**
+     * Extremely ugly hack to make sure autocomplete loads for the props
+     * There's like 4 select2 versions and jQuery versions.
+     * I give up trying to make it work in a better way.
+     * This is good enough.
+     */
+    setTimeout(function () {
+      django.jQuery(".hstore-toggle-txtarea").click().click();
+    }, 100);
   });
 </script>
 {% endblock %}
