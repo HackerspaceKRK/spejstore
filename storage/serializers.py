@@ -3,7 +3,7 @@ from storage.models import Item, Label, Category
 from rest_framework import serializers
 
 
-class ItemSerializer(serializers.HStoreField):
+class ItemSerializer(serializers.ModelSerializer):
     categories = serializers.SlugRelatedField(
         queryset=Category.objects, many=True, slug_field="name"
     )

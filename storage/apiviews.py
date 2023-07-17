@@ -30,7 +30,7 @@ class LabelViewSet(viewsets.ModelViewSet):
     API endpoint that allows items to be viewed or edited.
     """
 
-    queryset = Label.objects
+    queryset = Label.objects.all()
     serializer_class = LabelSerializer
 
     @action(detail=True, methods=["post"], permission_classes=[AllowAny])
@@ -47,13 +47,13 @@ class ItemViewSet(viewsets.ModelViewSet):
     API endpoint that allows items to be viewed or edited.
     """
 
-    queryset = Item.objects
+    queryset = Item.objects.all()
     serializer_class = ItemSerializer
     filter_backends = (SmartSearchFilterBackend, filters.OrderingFilter)
     ordering_fields = "__all__"
 
     def get_queryset(self):
-        return Item.objects.filter_roots()
+        return Item.objects.filter(**{"path__level": 1})
 
     def get_object(self):
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
