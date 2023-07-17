@@ -15,4 +15,4 @@ ADD . /code/
 RUN python -m pip install gunicorn
 
 RUN python manage.py collectstatic
-CMD bash -c "python manage.py migrate && gunicorn -b 0.0.0.0:8000 spejstore.wsgi:application"
+CMD bash -c "python manage.py migrate && gunicorn -b 0.0.0.0:8000 --capture-output --error-logfile - --access-logfile - spejstore.wsgi:application"
