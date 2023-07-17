@@ -2,6 +2,7 @@
 db.sqlite3
 *.swp
 spejstore.env
+.env
 env/
 backups
 media/
@@ -10,3 +11,7 @@ postgres-hstore/
 .ropeproject/
 docker-compose.override.yml
 build_static
+.venv
+.vscode
+
+__pycache__

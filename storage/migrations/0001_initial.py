@@ -3,24 +3,34 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import django_hstore.fields
+from django.contrib.postgres.fields import HStoreField
+from django.contrib.postgres.operations import HStoreExtension
+from django.contrib.postgres.operations import TrigramExtension
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
+        HStoreExtension(),
+        TrigramExtension(),
         migrations.CreateModel(
-            name='Item',
+            name="Item",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField()),
-                ('description', models.TextField()),
-                ('props', django_hstore.fields.DictionaryField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.TextField()),
+                ("description", models.TextField()),
+                ("props", HStoreField()),
             ],
         ),
     ]

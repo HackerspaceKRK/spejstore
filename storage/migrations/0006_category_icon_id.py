@@ -6,15 +6,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('storage', '0005'),
+        ("storage", "0005"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='category',
-            name='icon_id',
+            model_name="category",
+            name="icon_id",
             field=models.CharField(blank=True, max_length=64, null=True),
         ),
     ]

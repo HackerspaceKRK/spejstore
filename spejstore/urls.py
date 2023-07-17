@@ -16,19 +16,25 @@ from auth.views import auth_redirect
 
 
 router = routers.DefaultRouter()
-router.register(r'items', apiviews.ItemViewSet)
-router.register(r'labels', apiviews.LabelViewSet)
+router.register(r"items", apiviews.ItemViewSet)
+router.register(r"labels", apiviews.LabelViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
-urlpatterns = ([
-    url(r'^admin/login/.*', auth_redirect),
-] if settings.PROD else []) + [
-    url(r'^admin/', admin.site.urls),
-    url(r'^select2/', include('django_select2.urls')),
-
-    url(r'^', include('storage.urls')),
-    url(r'^api/1/', include(router.urls)),
-] \
-    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+urlpatterns = (
+    (
+        [
+            url(r"^admin/login/.*", auth_redirect),
+        ]
+        if settings.PROD
+        else []
+    )
+    + [
+        url(r"^admin/", admin.site.urls),
+        url(r"^select2/", include("django_select2.urls")),
+        url(r"^", include("storage.urls")),
+        url(r"^api/1/", include(router.urls)),
+    ]
+    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)

@@ -10,4 +10,11 @@ postgres-hstore/
 .ropeproject/
 docker-compose.yml
 docker-compose.override.yml
+docker-compose.prod-override.yml
+docker-compose.dev-override.yml
 build_static
+.venv
+.vscode
+.history
+log
+.Dockerfile

@@ -1,4 +1,38 @@
 /* django-admin CSS patches */
 .select2-container {
-    min-width: 400px;
+  min-width: 400px;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Change the appearence of the bakground colour surrounding the search input field */
+  .select2-search {
+    background-color: #343a40 !important;
+  }
+  /* Change the appearence of the search input field */
+  .select2-search input {
+    color: #ffffff !important;
+    background-color: #343a40 !important;
+  }
+
+  /* Change the appearence of the search results container */
+  .select2-results {
+    background-color: #343a40 !important;
+  }
+
+  /* Change the appearence of the dropdown select container */
+  .select2-container .select2-selection {
+    border-color: #6c757d !important;
+    color: #ffffff !important;
+    background-color: #343a40 !important;
+  }
+
+  /* Change the caret down arrow symbol to white */
+  .select2-container .select2-selection__arrow b {
+    border-color: #fff transparent transparent transparent !important;
+  }
+
+  /* Change the color of the default selected item i.e. the first option */
+  .select2-container .select2-selection--single .select2-selection__rendered {
+    color: #ffffff !important;
+  }
 }
