@@ -12,6 +12,13 @@ from django.shortcuts import get_object_or_404
 from storage.views import apply_smart_search
 
 
+def api_print(quantity, obj):
+    amount = min(int(quantity), 5)
+    for _ in range(amount):
+        obj.print()
+    return Response({"status": "success"})
+
+
 class SmartSearchFilterBackend(filters.BaseFilterBackend):
     """
     Filters query using smartsearch filter
@@ -35,11 +42,7 @@ class LabelViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["post"], permission_classes=[AllowAny])
     def print(self, request, pk):
-        quantity = min(int(request.query_params.get("quantity", 1)), 5)
-        obj = self.get_object()
-        for _ in range(quantity):
-            obj.print()
-        return obj
+        return api_print(request.query_params.get("quantity", 1), self.get_object())
 
 
 class ItemViewSet(viewsets.ModelViewSet):
@@ -76,12 +79,7 @@ class ItemViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["post"], permission_classes=[AllowAny])
     def print(self, request, pk):
-        # todo: deduplicate
-        quantity = min(int(request.query_params.get("quantity", 1)), 5)
-        obj = self.get_object()
-        for _ in range(quantity):
-            obj.print()
-        return obj
+        return api_print(request.query_params.get("quantity", 1), self.get_object())
 
     @action(
         detail=True,

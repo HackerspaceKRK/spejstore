@@ -23,6 +23,11 @@ STATES = (
 )
 
 
+def api_print(id):
+    resp = requests.post("{}/api/1/print/{}".format(settings.LABEL_API, id))
+    resp.raise_for_status()
+
+
 class Category(models.Model):
     name = models.CharField(max_length=127)
 
@@ -103,11 +108,7 @@ class Item(models.Model, TreeModelMixin):
         return next((c for c in self.categories.all() if c.icon_id), None)
 
     def print(self):
-        # todo: deduplicate
-        resp = requests.post(
-            "{}/api/1/print/{}".format(settings.LABEL_API, self.short_id())
-        )
-        resp.raise_for_status()
+        api_print(self.short_id())
 
     class Meta:
         ordering = ("path",)
@@ -135,5 +136,4 @@ class Label(models.Model):
         return "{}".format(self.id)
 
     def print(self):
-        resp = requests.post("{}/api/1/print/{}".format(settings.LABEL_API, self.id))
-        resp.raise_for_status()
+        api_print(self.id)
