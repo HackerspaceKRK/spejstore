@@ -120,7 +120,7 @@ var initDjangoHStoreWidget = function (hstore_field_name, inline_prefix) {
   $hstore.delegate("a.hs-add-row, .hs-add-row a", "click", function (e) {
     e.preventDefault();
     $hstore.find(".hstore-rows").append(empty_row);
-    $(".django-select2").djangoSelect2();
+    $(".django-select2").select2();
     $("select").on("select2:close", function () {
       $(this).focus();
     });
@@ -157,7 +157,7 @@ var initDjangoHStoreWidget = function (hstore_field_name, inline_prefix) {
       hstore_rows.show();
       add_row.show();
 
-      $(".django-select2").djangoSelect2();
+      $(".django-select2").select2();
     } else {
       raw_textarea.show();
       hstore_rows.hide();
