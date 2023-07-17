@@ -1,13 +1,15 @@
 version: "3"
 services:
   db:
-    build: postgres-hstore
+    image: postgres:15.3-alpine
     restart: always
     environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
 
   web:
-    build: .
+    image: registry.k0.hswaw.net/palid/spejstore:1689628039
     restart: always
     command: bash -c "python manage.py migrate && gunicorn -b 0.0.0.0:8000 --capture-output --error-logfile - --access-logfile - spejstore.wsgi:application"
     volumes:
