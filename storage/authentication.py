@@ -3,7 +3,7 @@ from rest_framework import exceptions
 
 from rest_framework.authentication import BaseAuthentication
 from spejstore.settings import (
-    LAN_ALLOWED_ADDRES_SPACE,
+    LAN_ALLOWED_ADDRESS_SPACE,
     LAN_ALLOWED_HEADER,
     PROD,
     PROXY_TRUSTED_IPS,
@@ -48,7 +48,7 @@ class LanAuthentication(BaseAuthentication):
             return (user, "authorized")
         else:
             raise exceptions.AuthenticationFailed(
-                "Unauthorized: not in subnet of " + LAN_ALLOWED_ADDRES_SPACE
+                "Unauthorized: not in subnet of " + LAN_ALLOWED_ADDRESS_SPACE
             )
 
     def authenticate_header(self, request):
@@ -66,7 +66,7 @@ class LanAuthentication(BaseAuthentication):
                         "Unauthorized: request is not coming from the PROXY_TRUSTED_IPS machine"
                     )
             return ipaddress.IPv4Address(client_ip) in ipaddress.IPv4Network(
-                LAN_ALLOWED_ADDRES_SPACE
+                LAN_ALLOWED_ADDRESS_SPACE
             )
         else:
             return True
