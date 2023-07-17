@@ -1,13 +1,11 @@
-from rest_framework import viewsets, generics, filters
+from rest_framework import viewsets, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
-
-from rest_framework.permissions import AllowAny
+from storage.authentication import LanAuthentication
 
 from storage.models import Item, Label
 from storage.serializers import ItemSerializer, LabelSerializer
 from django.http import Http404
-from django.shortcuts import get_object_or_404
 
 from storage.views import apply_smart_search
 
@@ -40,7 +38,10 @@ class LabelViewSet(viewsets.ModelViewSet):
     queryset = Label.objects.all()
     serializer_class = LabelSerializer
 
-    @action(detail=True, methods=["post"], permission_classes=[AllowAny])
+    @action(
+        detail=True,
+        methods=["post"],
+    )
     def print(self, request, pk):
         return api_print(request.query_params.get("quantity", 1), self.get_object())
 
@@ -77,40 +78,35 @@ class ItemViewSet(viewsets.ModelViewSet):
             except Label.DoesNotExist:
                 raise Http404()
 
-    @action(detail=True, methods=["post"], permission_classes=[AllowAny])
+    @action(
+        detail=True,
+        methods=["post"],
+    )
     def print(self, request, pk):
         return api_print(request.query_params.get("quantity", 1), self.get_object())
 
-    @action(
-        detail=True,
-    )
+    @action(detail=True, authentication_classes=[LanAuthentication])
     def children(self, request, pk):
         item = self.get_object()
         return Response(
             self.serializer_class(item.get_children().all(), many=True).data
         )
 
-    @action(
-        detail=True,
-    )
+    @action(detail=True, authentication_classes=[LanAuthentication])
     def ancestors(self, request, pk):
         item = self.get_object()
         return Response(
             self.serializer_class(item.get_ancestors().all(), many=True).data
         )
 
-    @action(
-        detail=True,
-    )
+    @action(detail=True, authentication_classes=[LanAuthentication])
     def descendants(self, request, pk):
         item = self.get_object()
         return Response(
             self.serializer_class(item.get_descendants().all(), many=True).data
         )
 
-    @action(
-        detail=True,
-    )
+    @action(detail=True, authentication_classes=[LanAuthentication])
     def siblings(self, request, pk):
         item = self.get_object()
         return Response(

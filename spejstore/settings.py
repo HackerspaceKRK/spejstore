@@ -34,7 +34,7 @@ DEBUG = not PROD
 ALLOWED_HOSTS = env(
     "ALLOWED_HOSTS",
     "devinventory,inventory.waw.hackerspace.pl,inventory.hackerspace.pl,i,inventory"
-    + (",127.0.0.1" if not PROD else ""),
+    + (",127.0.0.1,locahost,*" if not PROD else ""),
 ).split(",")
 LOGIN_REDIRECT_URL = "/admin/"
 
@@ -102,7 +102,7 @@ DATABASES = {
         "NAME": env("DB_NAME", "postgres"),
         "USER": env("DB_USER", "postgres"),
         "PASSWORD": env("DB_PASSWORD", None),
-        "HOST": env("DB_HOST", "db"),
+        "HOST": env("DB_HOST", "127.0.0.1"),
         "PORT": env("DB_PORT", 5432),
     }
 }
@@ -171,12 +171,10 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        "storage.authentication.LanAuthentication",
     ],
 }
 
@@ -188,3 +186,6 @@ SOCIAL_AUTH_JSONFIELD_ENABLED = True
 
 LABEL_API = env("LABEL_API", "http://label.waw.hackerspace.pl:4567")
 LOGIN_URL = "/admin/login/"
+LAN_ALLOWED_ADDRES_SPACE = "10.8.0.0/16"
+LAN_ALLOWED_HEADER = "X-LAN-ALLOWED"
+PROXY_TRUSTED_IPS = ["172.21.37.1"]
