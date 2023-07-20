@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from tree.fields import PathField
 from tree.models import TreeModelMixin
 from django.contrib.postgres.fields import HStoreField
+from django.contrib.auth.models import UserManager
 
 
 import requests
@@ -49,6 +50,21 @@ class Category(models.Model):
 # Also ID zawierające część name
 
 
+class StaffManager(UserManager):
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs
+
+
+class StaffProxyModel(User):
+    objects = StaffManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = "User"
+        verbose_name_plural = "Users"
+
+
 class Item(models.Model, TreeModelMixin):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
@@ -61,7 +77,7 @@ class Item(models.Model, TreeModelMixin):
     state = models.CharField(max_length=31, choices=STATES, default=STATES[0][0])
     categories = models.ManyToManyField(Category, blank=True)
     owner = models.ForeignKey(
-        User,
+        StaffProxyModel,
         null=True,
         blank=True,
         related_name="owned_items",
@@ -69,7 +85,7 @@ class Item(models.Model, TreeModelMixin):
     )
 
     taken_by = models.ForeignKey(
-        User,
+        StaffProxyModel,
         null=True,
         blank=True,
         related_name="taken_items",

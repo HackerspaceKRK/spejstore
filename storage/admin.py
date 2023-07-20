@@ -4,7 +4,7 @@ from django.contrib import admin
 from django_select2.forms import Select2MultipleWidget
 
 
-from .models import Item, ItemImage, Category, Label
+from .models import Item, ItemImage, Category, Label, StaffProxyModel
 
 from .widgets import PropsSelectWidget
 
@@ -41,8 +41,14 @@ class ItemAdmin(ModelAdminMixin, admin.ModelAdmin):
     form = ItemForm
     inlines = [ItemImageInline]
     save_on_top = True
-    autocomplete_fields = ["parent"]
-    search_fields = ["name"]
+    autocomplete_fields = ["parent", "owner", "taken_by"]
+    search_fields = ["name", "owner", "taken_by"]
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        formfield = super().formfield_for_foreignkey(db_field, request, **kwargs)
+        if db_field.name == "owner":
+            formfield.queryset = formfield.queryset.order_by("username")
+        return formfield
 
     def _name(self, obj):
         return ("-" * (obj.get_level() or 0)) + "> " + obj.name
@@ -89,6 +95,34 @@ from django.contrib.auth.models import Group
 User.add_to_class("get_short_name", User.get_username)
 User.add_to_class("get_full_name", User.get_username)
 
+
+from django.contrib.auth.admin import UserAdmin
+
+
+class StaffProxyModelAdmin(UserAdmin):
+    def has_module_permission(self, request):
+        return request.user.is_superuser
+
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    has_change_permission = has_add_permission
+    has_delete_permission = has_add_permission
+    has_module_permission = has_add_permission
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        is_superuser = request.user.is_superuser
+
+        if not is_superuser:
+            for f in form.base_fields:
+                form.base_fields[f].disabled = True
+
+        return form
+
+
+# admin.site.register(StaffProxyModel, StaffProxyModelAdmin)
+
 admin.site.unregister(User)
 admin.site.unregister(Group)
 
@@ -97,3 +131,5 @@ from social_django.admin import UserSocialAuth, Nonce, Association
 admin.site.unregister(UserSocialAuth)
 admin.site.unregister(Nonce)
 admin.site.unregister(Association)
+
+admin.site.register(StaffProxyModel, StaffProxyModelAdmin)

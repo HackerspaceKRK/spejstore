@@ -9,7 +9,7 @@ services:
       - POSTGRES_DB=postgres
 
   web:
-    image: registry.k0.hswaw.net/palid/spejstore:1689628039
+    image: registry.k0.hswaw.net/palid/spejstore:1689856372
     restart: always
     command: bash -c "python manage.py migrate && gunicorn -b 0.0.0.0:8000 --capture-output --error-logfile - --access-logfile - spejstore.wsgi:application"
     volumes:
