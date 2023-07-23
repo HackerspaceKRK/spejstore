@@ -1,6 +1,7 @@
 from rest_framework import viewsets, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny
 from storage.authentication import LanAuthentication
 
 from storage.models import Item, Label
@@ -81,6 +82,9 @@ class ItemViewSet(viewsets.ModelViewSet):
     @action(
         detail=True,
         methods=["post"],
+        # AllowAny is correct here, as we require LanAuthentication anyways
+        permission_classes=[AllowAny],
+        authentication_classes=[LanAuthentication],
     )
     def print(self, request, pk):
         return api_print(request.query_params.get("quantity", 1), self.get_object())
