@@ -38,8 +38,15 @@ class ItemAdmin(ModelAdminMixin, admin.ModelAdmin):
     form = ItemForm
     inlines = [ItemImageInline]
     save_on_top = True
-    autocomplete_fields = ["parent", "owner", "taken_by", "categories"]
-    search_fields = ["name", "owner__name", "taken_by__name"]
+    autocomplete_fields = [
+        "parent",
+        "owner",
+        "taken_by",
+        "categories",
+    ]
+    search_fields = [
+        "name",
+    ]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         formfield = super().formfield_for_foreignkey(db_field, request, **kwargs)

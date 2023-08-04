@@ -51,9 +51,7 @@ class Category(models.Model):
 
 
 class StaffManager(UserManager):
-    def get_queryset(self):
-        qs = super().get_queryset()
-        return qs
+    pass
 
 
 class StaffProxyModel(User):
