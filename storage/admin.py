@@ -1,10 +1,8 @@
 from django import forms
 from django.contrib import admin
 
-from django_select2.forms import Select2MultipleWidget
 
-
-from .models import Item, ItemImage, Category, Label, StaffProxyModel
+from .models import Item, ItemImage, Category, StaffProxyModel
 
 from .widgets import PropsSelectWidget
 
@@ -25,7 +23,6 @@ class ItemForm(forms.ModelForm):
         model = Item
         exclude = []
         widgets = {
-            "categories": Select2MultipleWidget,
             "props": PropsSelectWidget,
         }
 
@@ -41,7 +38,7 @@ class ItemAdmin(ModelAdminMixin, admin.ModelAdmin):
     form = ItemForm
     inlines = [ItemImageInline]
     save_on_top = True
-    autocomplete_fields = ["parent", "owner", "taken_by"]
+    autocomplete_fields = ["parent", "owner", "taken_by", "categories"]
     search_fields = ["name", "owner__name", "taken_by__name"]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
