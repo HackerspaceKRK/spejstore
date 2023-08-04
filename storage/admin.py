@@ -42,7 +42,7 @@ class ItemAdmin(ModelAdminMixin, admin.ModelAdmin):
     inlines = [ItemImageInline]
     save_on_top = True
     autocomplete_fields = ["parent", "owner", "taken_by"]
-    search_fields = ["name", "owner", "taken_by"]
+    search_fields = ["name", "owner__name", "taken_by__name"]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         formfield = super().formfield_for_foreignkey(db_field, request, **kwargs)
@@ -105,6 +105,11 @@ class StaffProxyModelAdmin(UserAdmin):
 
     def has_add_permission(self, request, obj=None):
         return request.user.is_superuser
+
+    def __has_view_permission(self, request, obj=None):
+        return True
+
+    has_view_permission = __has_view_permission
 
     has_change_permission = has_add_permission
     has_delete_permission = has_add_permission
