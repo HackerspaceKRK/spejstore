@@ -1,7 +1,7 @@
 import ipaddress
 from rest_framework import exceptions
 
-from rest_framework.authentication import BaseAuthentication
+from rest_framework.authentication import SessionAuthentication
 from spejstore.settings import (
     LAN_ALLOWED_ADDRESS_SPACE,
     LAN_ALLOWED_HEADER,
@@ -40,8 +40,11 @@ def get_ip_from_request(request):
     return None
 
 
-class LanAuthentication(BaseAuthentication):
+class LanAuthentication(SessionAuthentication):
     def authenticate(self, request):
+        is_session_authorized = super().authenticate(request)
+        if is_session_authorized:
+            return is_session_authorized
         is_authorized = self.has_permission(request)
         if is_authorized:
             user = getattr(request._request, "user", None)
