@@ -15,7 +15,7 @@ services:
       retries: 5
 
   web:
-    image: registry.k0.hswaw.net/palid/spejstore:1689856372
+    build: .
     restart: always
     command: bash -c "python manage.py migrate && gunicorn -b 0.0.0.0:8000 --capture-output --error-logfile - --access-logfile - spejstore.wsgi:application"
     volumes:

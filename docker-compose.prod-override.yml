@@ -4,3 +4,5 @@ services:
   db:
     volumes:
       - /var/spejstore-data:/var/lib/postgresql/data
+  web:
+    image: registry.k0.hswaw.net/palid/spejstore:1689856372
