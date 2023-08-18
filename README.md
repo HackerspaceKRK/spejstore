@@ -17,13 +17,7 @@ Please use Python3, for the love of `$deity`...
 ### Build & run
 
 ```sh
-docker-compose up
-```
-
-### Rebuild
-
-```sh
-docker-compose build
+docker-compose up --build --renew-anon-volumes
 ```
 
 ### Troubleshooting
