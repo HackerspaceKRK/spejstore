@@ -30,10 +30,13 @@
 .label-item code {
   margin: 0em 1em;
 }
-a {
-  color: #81d4fa !important;
-}
 
-a.navbar-brand {
-  color: #fff !important;
+@media (prefers-color-scheme: dark) {
+  a {
+    color: #81d4fa !important;
+  }
+
+  a.navbar-brand {
+    color: #fff !important;
+  }
 }
