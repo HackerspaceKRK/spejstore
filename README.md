@@ -17,6 +17,9 @@ Please use Python3, for the love of `$deity`...
 ### Build & run
 
 ```sh
+docker-compose up --build
+
+# if you need to reset built static files and/or postgres database:
 docker-compose up --build --renew-anon-volumes
 ```
 
