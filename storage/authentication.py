@@ -24,7 +24,7 @@ headers_to_check_for_ip = [
 
 
 def get_request_meta(request, key):
-    value = request.META.get(key, request).strip()
+    value = request.META.get(key, "")
     if value == "":
         return None
     return value
@@ -38,6 +38,26 @@ def get_ip_from_request(request):
         if ip:
             return ip
     return None
+
+
+def has_permission(request):
+    if PROD:
+        client_ip = get_ip_from_request(request)
+        if client_ip is None:
+            # This should only happen on localhost env when fiddling with code.
+            # It's technically impossible to get there with proper headers.
+            raise exceptions.AuthenticationFailed("Unauthorized: no ip detected?")
+        # Make sure that we need to check PROXY_TRUSTED_IPS here
+        if len(PROXY_TRUSTED_IPS) > 0:
+            if request.META["REMOTE_ADDR"] not in PROXY_TRUSTED_IPS:
+                raise exceptions.AuthenticationFailed(
+                    "Unauthorized: request is not coming from the PROXY_TRUSTED_IPS machine"
+                )
+        return ipaddress.IPv4Address(client_ip) in ipaddress.IPv4Network(
+            LAN_ALLOWED_ADDRESS_SPACE
+        )
+    else:
+        return True
 
 
 class LanAuthentication(SessionAuthentication):
@@ -56,20 +76,3 @@ class LanAuthentication(SessionAuthentication):
 
     def authenticate_header(self, request):
         return LAN_ALLOWED_HEADER
-
-    def has_permission(self, request):
-        if PROD:
-            client_ip = get_ip_from_request(request)
-            if client_ip is None:
-                raise exceptions.AuthenticationFailed("Unauthorized: no ip detected?")
-            # Make sure that we need to check PROXY_TRUSTED_IPS here
-            if len(PROXY_TRUSTED_IPS) > 0:
-                if request.META["REMOTE_ADDR"] not in PROXY_TRUSTED_IPS:
-                    raise exceptions.AuthenticationFailed(
-                        "Unauthorized: request is not coming from the PROXY_TRUSTED_IPS machine"
-                    )
-            return ipaddress.IPv4Address(client_ip) in ipaddress.IPv4Network(
-                LAN_ALLOWED_ADDRESS_SPACE
-            )
-        else:
-            return True
