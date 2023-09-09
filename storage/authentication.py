@@ -65,7 +65,7 @@ class LanAuthentication(SessionAuthentication):
         is_session_authorized = super().authenticate(request)
         if is_session_authorized:
             return is_session_authorized
-        is_authorized = self.has_permission(request)
+        is_authorized = has_permission(request)
         if is_authorized:
             user = getattr(request._request, "user", None)
             return (user, "authorized")

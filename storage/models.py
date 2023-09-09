@@ -136,6 +136,7 @@ class ItemImage(models.Model):
         return "{}".format(self.image.name)
 
 
+# Deprecated, left in db due to legacy reasons
 class Label(models.Model):
     id = models.CharField(max_length=64, primary_key=True)
     item = models.ForeignKey(Item, related_name="labels", on_delete=models.CASCADE)
