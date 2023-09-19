@@ -4,6 +4,7 @@ from rest_framework import exceptions
 from rest_framework.authentication import SessionAuthentication
 from spejstore.settings import (
     LAN_ALLOWED_ADDRESS_SPACE,
+    LAN_ALLOWED_SINGLE_ADDRESS,
 )
 
 
@@ -37,20 +38,29 @@ def get_ip_from_request(request):
     return None
 
 
+def has_address_space_permission(client_ip):
+    return ipaddress.IPv4Address(client_ip) in ipaddress.IPv4Network(
+        LAN_ALLOWED_ADDRESS_SPACE
+    )
+
+def has_single_address_permission(client_ip):
+    return ipaddress.IPv4Address(client_ip) == LAN_ALLOWED_SINGLE_ADDRESS
+
+
 def has_permission(request):
     # We don't care if address space is undefined
-    if LAN_ALLOWED_ADDRESS_SPACE == '':
+    if LAN_ALLOWED_ADDRESS_SPACE == '' and LAN_ALLOWED_SINGLE_ADDRESS == '':
         return (True, '')
     client_ip = get_ip_from_request(request)
     if client_ip is None:
         # This should only happen on localhost env when fiddling with code.
         # It's technically impossible to get there with proper headers.
         return (False, "Unauthorized: no ip detected?")
-    in_local_space = ipaddress.IPv4Address(client_ip) in ipaddress.IPv4Network(
-        LAN_ALLOWED_ADDRESS_SPACE
-    )
-    if not in_local_space:
+
+    if LAN_ALLOWED_ADDRESS_SPACE != '' and not has_address_space_permission(client_ip):
         return (False, "Unauthorized: " + client_ip + " not in subnet of " + LAN_ALLOWED_ADDRESS_SPACE)
+    if LAN_ALLOWED_SINGLE_ADDRESS != '' and not has_single_address_permission(client_ip):
+        return (False, "Unauthorized: " + client_ip + " is not " + LAN_ALLOWED_SINGLE_ADDRESS)
     return (True, '')
 
 class LanAuthentication(SessionAuthentication):
