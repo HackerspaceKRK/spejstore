@@ -3,7 +3,7 @@ from six.moves.urllib_parse import urlencode, unquote
 
 class HSWawOAuth2(BaseOAuth2):
     """Hackerspace OAuth authentication backend"""
-    name = 'spejstore'
+    name = 'hswro'
     ID_KEY = 'username'
     AUTHORIZATION_URL = 'https://auth.apps.hskrk.pl/application/o/authorize/'
     ACCESS_TOKEN_URL = 'http://authentik:9000/application/o/token/'
