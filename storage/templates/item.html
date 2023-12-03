@@ -10,8 +10,18 @@
     </ol>
     <h2>
         {% include "widgets/categoryicon.html" with category=item.primary_category %}
-        {{ item.name }}
+        {% if item.wiki_link %}
+            <a href="{{item.wiki_link}}" target="_blank">{{ item.name }}</a>
+        {% else %}
+            {{ item.name }}
+        {% endif %}
     </h2>
+
+    {% if item.wiki_link %}
+    <span>Click <a href="{{item.wiki_link}}" target="_blank">HERE</a> or title for wiki</span>
+    {% endif %}
+
+
     <div class="row">
         <div class="col-md-4">
 
