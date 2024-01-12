@@ -3,7 +3,7 @@
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
 """
-from django.conf.urls import url, include
+from django.urls import re_path, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -24,16 +24,16 @@ router.register(r"labels", apiviews.LabelViewSet)
 urlpatterns = (
     (
         [
-            url(r"^admin/login/.*", auth_redirect),
+            re_path(r"^admin/login/.*", auth_redirect),
         ]
         if settings.PROD
         else []
     )
     + [
-        url(r"^admin/", admin.site.urls),
-        url(r"^select2/", include("django_select2.urls")),
-        url(r"^", include("storage.urls")),
-        url(r"^api/1/", include(router.urls)),
+        re_path(r"^admin/", admin.site.urls),
+        re_path(r"^select2/", include("django_select2.urls")),
+        re_path(r"^", include("storage.urls")),
+        re_path(r"^api/1/", include(router.urls)),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
