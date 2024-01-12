@@ -6,13 +6,14 @@ charset-normalizer==3.2.0
 colorclass==2.2.2
 cryptography==41.0.1
 defusedxml==0.7.1
-Django==3.2.20
+Django==5.0.1
 django-admin-hstore-widget==1.2.1
 django-appconf==1.0.5
 django-hstore==1.4.2
 django-markdown2==0.3.1
 django-select2==8.1.2
-django-tree==0.5.6
+# Django-tree
+https://github.com/Palid/django-tree/archive/master.zip
 djangorestframework==3.14.0
 docopt==0.6.2
 idna==3.4
