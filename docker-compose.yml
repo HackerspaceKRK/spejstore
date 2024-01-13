@@ -26,12 +26,3 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    env_file:
-      - path: .env
-        required: true
-      - path: ./spejstore-dev.env
-        required: false
-    environment:
-      - SPEJSTORE_CLIENT_ID
-      - SPEJSTORE_SECRET
-      - SPEJSTORE_ENV
