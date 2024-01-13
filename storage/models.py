@@ -71,7 +71,7 @@ class Item(models.Model, TreeModelMixin):
 
     name = models.TextField()
 
-    wiki_link = models.TextField()
+    wiki_link = models.TextField(null=True, blank=True)
     description = models.TextField(blank=True, null=True)
     state = models.CharField(max_length=31, choices=STATES, default=STATES[0][0])
     categories = models.ManyToManyField(Category, blank=True)
