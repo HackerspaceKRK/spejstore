@@ -18,7 +18,7 @@ class ModelAdminMixin(object):
 
 class ItemForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput())
-    wiki_link = forms.CharField(widget=forms.TextInput())
+    wiki_link = forms.CharField(required=False, widget=forms.TextInput())
 
     class Meta:
         model = Item
