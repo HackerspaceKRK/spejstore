@@ -18,3 +18,5 @@ build_static
 .history
 log
 .Dockerfile
+.env
+.devcontainer
