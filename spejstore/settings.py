@@ -38,7 +38,7 @@ ALLOWED_HOSTS = env(
 ).split(",")
 LOGIN_REDIRECT_URL = "/admin/"
 
-CSRF_TRUSTED_ORIGINS = env("HOST", "https://inventory.hackerspace.pl").split(",")
+CSRF_TRUSTED_ORIGINS = env("HOST", "https://inventory.hackerspace.pl,").split(",")
 
 
 # Application definition
