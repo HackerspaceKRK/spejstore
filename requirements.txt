@@ -12,6 +12,7 @@ django-appconf==1.0.5
 django-hstore==1.4.2
 django-markdown2==0.3.1
 django-select2==8.1.2
+django-storages[s3]==1.14.2
 # Django-tree
 https://github.com/Palid/django-tree/archive/master.zip
 djangorestframework==3.14.0

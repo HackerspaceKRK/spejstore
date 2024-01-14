@@ -14,5 +14,4 @@ ADD . /code/
 
 RUN python -m pip install gunicorn
 
-RUN python manage.py collectstatic --no-input --clear
-CMD bash -c "python manage.py migrate && gunicorn --workers 1 --threads 4 -b 0.0.0.0:8000 --capture-output --error-logfile - --access-logfile - spejstore.wsgi:application"
+CMD bash -c "python manage.py collectstatic --no-input --clear && python manage.py migrate && gunicorn --workers 1 --threads 4 -b 0.0.0.0:8000 --capture-output --error-logfile - --access-logfile - spejstore.wsgi:application"

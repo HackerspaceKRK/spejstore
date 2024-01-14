@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.postgres",
+    "storages", # django-storages s3boto support
     "social_django",
     "tree",
     "django_select2",
@@ -168,14 +169,52 @@ SOCIAL_AUTH_PIPELINE = (
     "auth.pipeline.staff_me_up",
 )
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+# Determines the storage type for Django static files and media.
+FILE_STORAGE_TYPE = env("FILE_STORAGE_TYPE", "filesystem")
+if FILE_STORAGE_TYPE == "filesystem":
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+elif FILE_STORAGE_TYPE == "s3":
+    S3_BUCKET_NAME = env("S3_BUCKET_NAME", "inventory")
+    S3_ENDPOINT_URL = env("S3_ENDPOINT_URL", "https://object.ceph-eu.hswaw.net")
+    S3_DOMAIN_NAME = env("S3_DOMAIN_NAME", "object.ceph-eu.hswaw.net")
+    S3_ACCESS_KEY = env("S3_ACCESS_KEY", "")
+    S3_SECRET_KEY = env("S3_SECRET_KEY", "=")
+    S3_STATIC_LOCATION = "static"
+    S3_MEDIA_LOCATION = "media"
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+            "OPTIONS": {
+                "access_key": S3_ACCESS_KEY,
+                "secret_key": S3_SECRET_KEY,
+                "endpoint_url": S3_ENDPOINT_URL,
+                "bucket_name": S3_BUCKET_NAME,
+                "default_acl": "public-read",
+                "location": S3_MEDIA_LOCATION,
+                "custom_domain": f"{S3_DOMAIN_NAME}/{S3_BUCKET_NAME}",
+                "file_overwrite": False,
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+            "OPTIONS": {
+                "access_key": S3_ACCESS_KEY,
+                "secret_key": S3_SECRET_KEY,
+                "endpoint_url": S3_ENDPOINT_URL,
+                "bucket_name": S3_BUCKET_NAME,
+                "default_acl": "public-read",
+                "location": S3_STATIC_LOCATION,
+                "custom_domain": f"{S3_DOMAIN_NAME}/{S3_BUCKET_NAME}",
+            },
+        },
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
