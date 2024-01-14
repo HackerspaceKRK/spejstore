@@ -1,77 +1,8 @@
-{% load static %}
+{% extends "error_template.html" %}
 
-<!DOCTYPE html>
-<style>
-  @font-face {
-    font-family: "Press Start 2P";
-    src: url("{% static fonts/pressstart2p-regular-webfont.woff2 %}") format("woff2"),
-      url("{% static fonts/pressstart2p-regular-webfont.woff %}") format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  :root {
-    --color: #54fe55;
-    --glowSize: 10px;
-  }
-
-  html,
-  body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-  }
-
-  * {
-    font-family: "Press Start 2P", cursive;
-    box-sizing: border-box;
-  }
-
-  #app {
-    padding: 1rem;
-    background: black;
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    color: var(--color);
-    text-shadow: 0px 0px var(--glowSize);
-    font-size: 6rem;
-    flex-direction: column;
-
-    .txt {
-      font-size: 1.8rem;
-    }
-  }
-
-  @keyframes blink {
-    0% {
-      opacity: 0;
-    }
-
-    49% {
-      opacity: 0;
-    }
-
-    50% {
-      opacity: 1;
-    }
-
-    100% {
-      opacity: 1;
-    }
-  }
-
-  .blink {
-    animation-name: blink;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-  }
-</style>
-<html lang="en">
-<div id="app">
+{% block content %}
   <div>500</div>
   <div class="txt">Something went wrong...<span class="blink">_</span></div>
-</div>
+{% endblock %}
 
-</html>
+
