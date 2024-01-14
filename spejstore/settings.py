@@ -227,4 +227,3 @@ LABEL_API = env("LABEL_API", "http://label.waw.hackerspace.pl:4567")
 LOGIN_URL = "/admin/login/"
 # Local LAN address space
 LAN_ALLOWED_ADDRESS_SPACE = env("LAN_ALLOWED_ADDRESS_SPACE", "")
-ALLOWED_HOSTS = ["0.0.0.0", "localhost"]
