@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import os
 
 import uuid
 import re
@@ -129,9 +130,16 @@ class Item(models.Model, TreeModelMixin):
         ordering = ("path",)
 
 
+class ImageFieldWithUuid(models.ImageField):
+    def generate_filename(self, instance, filename):
+        ext = filename.split(".")[-1]
+        filename = "%s.%s" % (uuid.uuid4(), ext)
+        return super().generate_filename(instance, filename)
+
+
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, related_name="images", on_delete=models.CASCADE)
-    image = models.ImageField()
+    image = ImageFieldWithUuid()
 
     def __str__(self):
         return "{}".format(self.image.name)
