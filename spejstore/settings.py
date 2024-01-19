@@ -173,14 +173,25 @@ if FILE_STORAGE_TYPE == "filesystem":
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         },
     }
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+    STATIC_URL = "/static/"
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = env("MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
+
 elif FILE_STORAGE_TYPE == "s3":
     S3_BUCKET_NAME = env("S3_BUCKET_NAME", "inventory")
     S3_ENDPOINT_URL = env("S3_ENDPOINT_URL", "https://object.ceph-eu.hswaw.net")
     S3_DOMAIN_NAME = env("S3_DOMAIN_NAME", "object.ceph-eu.hswaw.net")
     S3_ACCESS_KEY = env("S3_ACCESS_KEY", "")
     S3_SECRET_KEY = env("S3_SECRET_KEY", "=")
+
     S3_STATIC_LOCATION = "static"
     S3_MEDIA_LOCATION = "media"
+
     STORAGES = {
         "default": {
             "BACKEND": "storages.backends.s3.S3Storage",
@@ -208,6 +219,13 @@ elif FILE_STORAGE_TYPE == "s3":
             },
         },
     }
+    bucket_domain_name = f"{S3_ENDPOINT_URL}/{S3_BUCKET_NAME}"
+    STATIC_URL = f"{bucket_domain_name}/{S3_STATIC_LOCATION}/"
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+    MEDIA_URL = "/media/"
+    STATIC_URL = f"{bucket_domain_name}/{S3_MEDIA_LOCATION}/"
+    MEDIA_ROOT = env("MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -218,14 +236,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
-
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = env("MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
 
 REQUIRE_AUTH = env("REQUIRE_AUTH", "true")
 if REQUIRE_AUTH == "true":
