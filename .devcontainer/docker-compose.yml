@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   # Update this to the name of the service you want to work with in your docker-compose.yml file
   web:
@@ -30,11 +30,10 @@ services:
       - SPEJSTORE_DB_PASSWORD=postgres
       - SPEJSTORE_DB_HOST=db
       # - SPEJSTORE_DB_PORT=
-      - SPEJSTORE_ALLOWED_HOSTS=localhost,127.0.0.1
+      - SPEJSTORE_ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
       # - SPEJSTORE_CLIENT_ID=
       # - SPEJSTORE_SECRET=
       # - SPEJSTORE_MEDIA_ROOT=
       # - SPEJSTORE_REQUIRE_AUTH=true
       - SPEJSTORE_OAUTH_REDIRECT_IS_HTTPS=false
-      - SPEJSTORE_PROXY_TRUSTED_IPS=172.21.37.1
-
+      # - SPEJSTORE_PROXY_TRUSTED_IPS=172.21.37.1
