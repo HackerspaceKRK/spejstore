@@ -39,13 +39,6 @@ class LabelViewSet(viewsets.ModelViewSet):
     queryset = Label.objects.all()
     serializer_class = LabelSerializer
 
-    @action(
-        detail=True,
-        methods=["post"],
-    )
-    def print(self, request, pk):
-        return api_print(request.query_params.get("quantity", 1), self.get_object())
-
 
 class ItemViewSet(viewsets.ModelViewSet):
     """

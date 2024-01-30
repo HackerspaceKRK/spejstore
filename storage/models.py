@@ -25,8 +25,15 @@ STATES = (
 )
 
 
-def api_print(id):
-    resp = requests.post("{}/api/1/print/{}".format(settings.LABEL_API, id))
+def api_print(item):
+    resp = requests.post(
+        "{}/api/2/print".format(settings.LABEL_API),
+        params={
+            "id": item.short_id,
+            "name": item.name,
+            "owner": item.owner,
+        }
+    )
     resp.raise_for_status()
 
 
@@ -124,7 +131,7 @@ class Item(models.Model, TreeModelMixin):
         return next((c for c in self.categories.all() if c.icon_id), None)
 
     def print(self):
-        api_print(self.short_id())
+        api_print(self)
 
     class Meta:
         ordering = ("path",)
@@ -158,6 +165,3 @@ class Label(models.Model):
 
     def __str__(self):
         return "{}".format(self.id)
-
-    def print(self):
-        api_print(self.id)
