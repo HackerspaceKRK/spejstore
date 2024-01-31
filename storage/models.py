@@ -29,7 +29,7 @@ def api_print(item):
     resp = requests.post(
         "{}/api/2/print".format(settings.LABEL_API),
         params={
-            "id": item.short_id,
+            "id": item.short_id(),
             "name": item.name,
             "owner": item.owner,
         }
