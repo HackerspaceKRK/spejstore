@@ -1,0 +1,27 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "migrate",
+      "type": "shell",
+      "command": "${workspaceFolder}/manage.py migrate"
+    },
+    {
+      "label": "makemigrations",
+      "type": "shell",
+      "command": "${workspaceFolder}/manage.py makemigrations"
+    },
+    {
+      "label": "runserver",
+      "type": "shell",
+      "command": "${workspaceFolder}/manage.py runserver"
+    },
+    {
+      "label": "collectstatic",
+      "type": "shell",
+      "command": "${workspaceFolder}/manage.py collectstatic"
+    }
+  ]
+}
