@@ -1,4 +1,6 @@
 asgiref==3.7.2
+boto3==1.34.32
+botocore==1.34.32
 certifi==2023.5.7
 cffi==1.15.1
 chardet==5.1.0
@@ -12,12 +14,13 @@ django-appconf==1.0.5
 django-hstore==1.4.2
 django-markdown2==0.3.1
 django-select2==8.1.2
-django-storages[s3]==1.14.2
-# Django-tree
-https://github.com/Palid/django-tree/archive/master.zip
+django-storages==1.14.2
+django-tree @ https://github.com/Palid/django-tree/archive/439e9a867e789b58f0c37e34e8ceb85ce1b806dc.zip#sha256=044e6766f4993512404492d7ec76949ca6b9ed44c88619ecc3a4e5339aa27b71
 djangorestframework==3.14.0
 docopt==0.6.2
+gunicorn==21.2.0
 idna==3.4
+jmespath==1.0.1
 markdown2==2.4.9
 oauthlib==3.2.2
 packaging==23.1
@@ -25,10 +28,13 @@ Pillow==10.0.0
 psycopg2==2.9.6
 pycparser==2.21
 PyJWT==2.7.0
+python-dateutil==2.8.2
 python3-openid==3.2.0
 pytz==2023.3
 requests==2.31.0
 requests-oauthlib==1.3.1
+s3transfer==0.10.0
+six==1.16.0
 social-auth-app-django==5.2.0
 social-auth-core==4.4.2
 sqlparse==0.4.4
