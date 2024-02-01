@@ -2,7 +2,9 @@ version: "3"
 services:
   db:
     image: postgres:15.4
-    restart: always
+    restart: unless-stopped
+    volumes:
+      - spejstore-db:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -16,13 +18,18 @@ services:
 
   web:
     build: .
-    restart: always
+    restart: unless-stopped
     command: bash -c "python manage.py collectstatic --no-input --clear && python manage.py migrate && gunicorn --workers 1 --threads 4 -b 0.0.0.0:8000 --capture-output --error-logfile - --access-logfile - spejstore.wsgi:application"
     volumes:
       - .:/code
       - /code/build_static
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
+volumes:
+  spejstore-db:
+    external: false

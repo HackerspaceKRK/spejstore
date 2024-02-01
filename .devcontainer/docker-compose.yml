@@ -1,4 +1,4 @@
-version: "3"
+version: "3.4"
 services:
   web:
     volumes:
@@ -20,4 +20,5 @@ services:
       # - SPEJSTORE_MEDIA_ROOT=
       # - SPEJSTORE_REQUIRE_AUTH=true
       - SPEJSTORE_OAUTH_REDIRECT_IS_HTTPS=false
+      - SPEJSTORE_SPEJSTORE_FILE_STORAGE_TYPE="filesystem"
       # - SPEJSTORE_PROXY_TRUSTED_IPS=172.21.37.1
