@@ -15,3 +15,6 @@ build_static
 .vscode
 
 __pycache__
+
+# Is not ignored by default in devcontainers, macs bad
+.DS_Store
