@@ -24,6 +24,7 @@ Because there is not enough general inventory software invented here yet.
 6. Wait for the application and container to properly build.
    1. Devcontainer's VSCode instance will be automatically configured with extensions to help your development process.
    2. You might get a Toast telling you to re-open the directory due to Black not working properly. Do so for proper autoformatting support.
+   3. Make sure that extensions were installed in your vscode devcontainer. It might take a couple of minutes.
 7. `manage.py migrate` will be run automatically after container creation, to make sure you have the latest migrations done on the development database without any need for interaction.
 8. Run debug session with either command of "Start Debugging" (default hotkey F5), or with the Debug sidebar. ![Debug sidebar instructions](readme/debug-example.png 'Debug sidebar')
 9. You should have automatically forwarded ports, so the only thing remaining is opening browser window with the url provided in terminal.
@@ -37,7 +38,7 @@ Because there is not enough general inventory software invented here yet.
 1. Get python3
 2. `pip install -r requirements.txt`
 3. `python3 manage.py migrate`
-4. `python3 manage.py collecstatic`
+4. `python3 manage.py collectstatic`
 5. `python3 manage.py runserver 0.0.0.0:8000`
 
 ## New docs (WIP)
