@@ -17,3 +17,8 @@ __pycache__
 
 # Is not ignored by default in devcontainers, macs bad
 .DS_Store
+
+# Ignore vscode devcontainer files
+.vscode-server
+.ssh
+.gitconfig
