@@ -7,8 +7,8 @@ class HSWawOAuth2(BaseOAuth2):
 
     name = "hswaw"
     ID_KEY = "username"
-    AUTHORIZATION_URL = "https://sso.hackerspace.pl/oauth/authorize"
-    ACCESS_TOKEN_URL = "https://sso.hackerspace.pl/oauth/token"
+    AUTHORIZATION_URL = "https://auth.apps.hskrk.pl/application/o/authorize"
+    ACCESS_TOKEN_URL = "https://auth.apps.hskrk.pl/application/o/token"
     DEFAULT_SCOPE = ["profile:read"]
     REDIRECT_STATE = False
     SCOPE_SEPARATOR = ","
@@ -28,10 +28,9 @@ class HSWawOAuth2(BaseOAuth2):
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
-        url = "https://sso.hackerspace.pl/api/1/profile"
+        url = "https://auth.apps.hskrk.pl/application/o/userinfo"
         headers = {"Authorization": "Bearer {}".format(access_token)}
         return self.get_json(url, headers=headers)
-
     def auth_url(self):
         """Return redirect url"""
         state = self.get_or_create_state()
