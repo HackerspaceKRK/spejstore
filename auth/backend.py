@@ -32,6 +32,9 @@ class HSWawOAuth2(BaseOAuth2):
         """Loads user data from service"""
         url = "https://auth.apps.hskrk.pl/application/o/userinfo/"
         headers = {"Authorization": "Bearer {}".format(access_token)}
+        print(url)
+        print(headers)
+        print(access_token)
         return self.get_json(url, headers=headers)
     def auth_url(self):
         """Return redirect url"""
