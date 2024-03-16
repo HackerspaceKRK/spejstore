@@ -8,7 +8,7 @@ class HSWawOAuth2(BaseOAuth2):
     name = "hswaw"
     ID_KEY = "username"
     AUTHORIZATION_URL = "https://auth.apps.hskrk.pl/application/o/authorize"
-    ACCESS_TOKEN_URL = "https://auth.apps.hskrk.pl/application/o/token"
+    ACCESS_TOKEN_URL = "http://authentik:9000/application/o/token"
     DEFAULT_SCOPE = ["profile:read"]
     REDIRECT_STATE = False
     SCOPE_SEPARATOR = ","
