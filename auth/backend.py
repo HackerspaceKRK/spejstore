@@ -9,7 +9,7 @@ class HSWawOAuth2(BaseOAuth2):
     ID_KEY = "username"
     AUTHORIZATION_URL = "https://auth.apps.hskrk.pl/application/o/authorize/"
     ACCESS_TOKEN_URL = "https://auth.apps.hskrk.pl/application/o/token/"
-    DEFAULT_SCOPE = ["email, openid, profile"]
+    DEFAULT_SCOPE = ["email openid profile"]
     ACCESS_TOKEN_METHOD = 'POST'
     REQUEST_TOKEN_METHOD = 'POST'
     REDIRECT_STATE = False
