@@ -10,6 +10,7 @@ class HSWawOAuth2(BaseOAuth2):
     AUTHORIZATION_URL = "https://auth.apps.hskrk.pl/application/o/authorize"
     ACCESS_TOKEN_URL = "http://authentik:9000/application/o/token"
     DEFAULT_SCOPE = ["profile:read"]
+    ACCESS_TOKEN_METHOD = 'POST'
     REDIRECT_STATE = False
     SCOPE_SEPARATOR = ","
     EXTRA_DATA = [("expires", "expires_in")]
@@ -28,7 +29,7 @@ class HSWawOAuth2(BaseOAuth2):
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
-        url = "https://auth.apps.hskrk.pl/application/o/userinfo"
+        url = "http://authentik:9000/application/o/userinfo"
         headers = {"Authorization": "Bearer {}".format(access_token)}
         return self.get_json(url, headers=headers)
     def auth_url(self):
