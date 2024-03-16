@@ -19,11 +19,11 @@ class HSWawOAuth2(BaseOAuth2):
     def get_user_details(self, response):
         """Return user details from Hackerspace account"""
         personal_email = None
-        if response.get("personal_email"):
-            personal_email = response.get("personal_email")[0]
+        if response.get("email"):
+            personal_email = response.get("email") 
 
         return {
-            "username": response.get("username"),
+            "username": response.get("preferred_username"),
             "email": response.get("email"),
             "personal_email": personal_email,
         }
