@@ -11,6 +11,7 @@ class HSWawOAuth2(BaseOAuth2):
     ACCESS_TOKEN_URL = "http://authentik:9000/application/o/token"
     DEFAULT_SCOPE = ["profile:read"]
     ACCESS_TOKEN_METHOD = 'POST'
+    REQUEST_TOKEN_METHOD = 'POST'
     REDIRECT_STATE = False
     SCOPE_SEPARATOR = ","
     EXTRA_DATA = [("expires", "expires_in")]
