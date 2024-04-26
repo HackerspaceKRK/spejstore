@@ -137,9 +137,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SOCIAL_AUTH_OIDC_OIDC_ENDPOINT = 'https://auth.apps.hskrk.pl/application/o/spejstore/'  # endpoint without /.well-known/openid-configuration
+SOCIAL_AUTH_OIDC_KEY = env("CLIENT_ID")
+SOCIAL_AUTH_OIDC_SECRET = env("SECRET")
+
 
 AUTHENTICATION_BACKENDS = (
-    "auth.backend.HSWawOAuth2",
+    "social_core.backends.open_id_connect.OpenIdConnectAuth",
     "django.contrib.auth.backends.ModelBackend",
 )
 
